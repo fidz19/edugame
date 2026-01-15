@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\GameSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\ParentRegisterRequest;
 
 class ParentController extends Controller
 {
@@ -45,6 +46,36 @@ class ParentController extends Controller
     }
 
     /**
+     * Show register form
+     */
+    public function showRegisterForm()
+    {
+        return view('parent.register');
+    }
+
+    /**
+     * Process registration
+     */
+    public function register(ParentRegisterRequest $request)
+    {
+        // Create new parent account
+        $parent = OrangTua::create([
+            'parent_name' => $request->parent_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'gender' => $request->gender,
+            'child_name' => '', // Will be filled later when adding children
+        ]);
+
+        // Auto-login after registration
+        session([
+            'parent_id' => $parent->id,
+            'parent_name' => $parent->parent_name
+        ]);
+
+        return redirect()->route('parent.dashboard')->with('success', 'Pendaftaran berhasil! Selamat datang, ' . $parent->parent_name);
+    }
+    /**
      * Show parent dashboard
      */
     public function dashboard()
@@ -54,12 +85,13 @@ class ParentController extends Controller
         }
 
         $parent = OrangTua::with('students')->findOrFail(session('parent_id'));
-        
+
         // Get all children of this parent
         $students = $parent->students;
 
         // Get game sessions for all children
         $allSessions = [];
+        $allSchedules = [];
         $totalGamesPlayed = 0;
         $totalScore = 0;
         $totalQuestions = 0;
@@ -73,7 +105,15 @@ class ParentController extends Controller
                 ->get();
 
             $allSessions[$student->id] = $sessions;
-            
+
+            // Get schedules for this student
+            $allSchedules[$student->id] = \App\Models\Schedule::active()
+                ->forStudent($student->id)
+                ->with('teacher')
+                ->orderBy('day_of_week')
+                ->orderBy('start_time')
+                ->get();
+
             // Calculate totals
             $totalGamesPlayed += $sessions->count();
             $totalScore += $sessions->sum('total_score');
@@ -87,6 +127,7 @@ class ParentController extends Controller
             'parent',
             'students',
             'allSessions',
+            'allSchedules',
             'totalGamesPlayed',
             'totalScore',
             'overallAccuracy'

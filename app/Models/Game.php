@@ -18,14 +18,20 @@ class Game extends Model
         'css_style',
         'js_code',
         'custom_template',
+        'custom_template_enabled',
         'game_images',
         'category',
         'is_active',
-        'order'
+        'order',
+        'template_id',
+        'teacher_id',
+        'template_config'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'custom_template_enabled' => 'boolean',
+        'template_config' => 'array'
     ];
 
     /**
@@ -42,6 +48,22 @@ class Game extends Model
     public function sessions()
     {
         return $this->hasMany(GameSession::class);
+    }
+
+    /**
+     * Relasi ke template
+     */
+    public function template()
+    {
+        return $this->belongsTo(GameTemplate::class, 'template_id');
+    }
+
+    /**
+     * Relasi ke guru yang membuat game
+     */
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
     /**

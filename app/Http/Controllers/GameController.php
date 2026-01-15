@@ -92,15 +92,15 @@ class GameController extends Controller
             return redirect()->route('home')->with('error', 'Silakan login terlebih dahulu');
         }
 
-        $session = GameSession::with('game')->findOrFail($sessionId);
+        $session = GameSession::with(['game.template'])->findOrFail($sessionId);
 
         // Check if session belongs to current student
         if ($session->student_id != session('student_id')) {
             abort(403, 'Unauthorized');
         }
 
-        // Check if game has custom template
-        if ($session->game->custom_template) {
+        // Legacy full-page template (stored as raw HTML)
+        if ($session->game->custom_template_enabled && filled($session->game->custom_template)) {
             return view('game.custom', compact('session'));
         }
 

@@ -16,7 +16,10 @@
 /public/build
 /public/hot
 /public/storage
+/database/*.sqlite
 /storage/*.key
+/storage/framework/views
+/storage/logs
 /storage/pail
 /vendor
 Homestead.json

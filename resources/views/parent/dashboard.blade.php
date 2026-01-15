@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Orang Tua - World Languages Games</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f7fa;
@@ -18,7 +24,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .navbar h1 {
@@ -48,7 +54,7 @@
 
         .btn-light:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
         }
 
         .container {
@@ -62,7 +68,7 @@
             padding: 30px;
             border-radius: 15px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .welcome-card h2 {
@@ -81,7 +87,7 @@
             background: white;
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
         }
 
@@ -110,7 +116,7 @@
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .child-header {
@@ -189,8 +195,59 @@
             font-size: 48px;
             margin-bottom: 15px;
         }
+
+        .schedule-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .schedule-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .schedule-item {
+            background: #f0f9ff;
+            border-radius: 10px;
+            padding: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .schedule-day {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .schedule-time {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 4px 0;
+        }
+
+        .schedule-subject {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .schedule-teacher {
+            font-size: 12px;
+            color: #94a3b8;
+        }
     </style>
 </head>
+
 <body>
     <div class="navbar">
         <h1>👨‍👩‍👧‍👦 Dashboard Orang Tua</h1>
@@ -207,7 +264,7 @@
         </div>
 
         <h2 style="margin-bottom: 20px; color: #333;">📊 Statistik Keseluruhan</h2>
-        
+
         <div class="stats-grid">
             <div class="stat-card">
                 <h3>Total Anak</h3>
@@ -262,7 +319,8 @@
                                         <td>{{ $session->total_questions }}</td>
                                         <td>{{ $session->correct_answers }}</td>
                                         <td>
-                                            <span class="badge {{ $session->accuracy >= 80 ? 'badge-success' : ($session->accuracy >= 60 ? 'badge-warning' : 'badge-danger') }}">
+                                            <span
+                                                class="badge {{ $session->accuracy >= 80 ? 'badge-success' : ($session->accuracy >= 60 ? 'badge-warning' : 'badge-danger') }}">
                                                 {{ $session->accuracy }}%
                                             </span>
                                         </td>
@@ -277,6 +335,33 @@
                             <p>{{ $student->nama_anak }} belum bermain game apapun</p>
                         </div>
                     @endif
+
+                    <!-- Schedule Section -->
+                    @if(isset($allSchedules[$student->id]) && $allSchedules[$student->id]->count() > 0)
+                        <div class="schedule-section">
+                            <h4 class="schedule-title">📅 Jadwal Les {{ $student->nama_anak }}</h4>
+                            <div class="schedule-grid">
+                                @php
+                                    $days = [1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu', 7 => 'Minggu'];
+                                @endphp
+                                @foreach($allSchedules[$student->id] as $schedule)
+                                    <div class="schedule-item">
+                                        <div class="schedule-day">{{ $days[$schedule->day_of_week] ?? '-' }}</div>
+                                        <div class="schedule-time">{{ $schedule->getTimeRange() }}</div>
+                                        <div class="schedule-subject">{{ $schedule->subject }}</div>
+                                        @if($schedule->teacher)
+                                            <div class="schedule-teacher">👨‍🏫 {{ $schedule->teacher->name }}</div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <div class="schedule-section">
+                            <h4 class="schedule-title">📅 Jadwal Les {{ $student->nama_anak }}</h4>
+                            <p style="color: #94a3b8; font-size: 14px;">Belum ada jadwal les yang terdaftar</p>
+                        </div>
+                    @endif
                 </div>
             @empty
                 <div class="child-card">
@@ -289,4 +374,5 @@
         </div>
     </div>
 </body>
+
 </html>

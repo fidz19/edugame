@@ -38,7 +38,7 @@ class StudentController extends Controller
         if (session('intended_game_slug')) {
             $gameSlug = session('intended_game_slug');
             session()->forget('intended_game_slug'); // Hapus dari session
-            
+
             // Redirect ke game start (akan otomatis create session dan mulai game)
             return redirect()->route('games.start', $gameSlug);
         }

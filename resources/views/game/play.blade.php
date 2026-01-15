@@ -1,3 +1,49 @@
+@php
+    $template = $session->game->template;
+    $templateType = $template->template_type ?? 'quiz';
+    $activeHtmlTemplate = $session->game->html_template ?: ($template->html_template ?? null);
+    $activeCssStyle = $session->game->css_style ?: ($template->css_style ?? '');
+    $activeJsCode = $session->game->js_code ?: ($template->js_code ?? '');
+
+    $displayQuestionText = $question->question_text;
+    if ($templateType === 'hangman') {
+        if (!trim((string) $displayQuestionText)) {
+            $wordLength = strlen((string) $question->correct_answer);
+            $displayQuestionText = "Tebak kata ini ({$wordLength} huruf)";
+        }
+    }
+
+    if (in_array($templateType, ['hangman', 'crossword'], true)) {
+        $activeJsCode = str_replace('"JAWABAN"', json_encode((string) $question->correct_answer), $activeJsCode);
+    }
+
+    $normalizeAssetPath = function (?string $path): string {
+        if (!$path) {
+            return '';
+        }
+        if (preg_match('~^https?://~i', $path)) {
+            return $path;
+        }
+        $path = ltrim($path, '/');
+        if (str_starts_with($path, 'storage/')) {
+            return asset($path);
+        }
+        return asset('storage/' . $path);
+    };
+
+    $questionImageUrl = $normalizeAssetPath($question->image ?? null);
+
+    $gameImages = is_array($session->game->game_images ?? null) ? $session->game->game_images : [];
+    $gameImageUrl = $normalizeAssetPath($gameImages[0] ?? null);
+
+    $templateReplacements = [
+        '{{question}}' => $displayQuestionText,
+        '{{QUESTION}}' => $displayQuestionText,
+        '{{question_image_url}}' => $questionImageUrl ?: $gameImageUrl,
+        '{{game_image_url}}' => $gameImageUrl,
+    ];
+@endphp
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -49,10 +95,10 @@
             max-width: 800px;
             margin: 0 auto;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
+	        }
 
-        /* Custom CSS from database will be injected here */
-        {!! $session->game->css_style !!}
+	        /* Custom CSS from database will be injected here */
+	        {!! $activeCssStyle !!}
 
         .default-question {
             font-size: 24px;
@@ -135,6 +181,61 @@
         .btn-next:hover {
             background: #059669;
         }
+
+        /* Multiple choice options styles */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-item:hover {
+            background: #eef2ff;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .option-item.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: white;
+        }
+
+        .option-item.selected .option-key {
+            background: white;
+            color: #667eea;
+        }
+
+        .option-key {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -150,40 +251,95 @@
         </div>
     </div>
 
-    <div class="game-container">
-        @if($session->game->html_template)
-            <!-- Custom template from database -->
-            <div id="custom-game-template">
-                {!! str_replace(
-                    ['{{question}}', '{{QUESTION}}'],
-                    [$question->question_text, $question->question_text],
-                    $session->game->html_template
-                ) !!}
-            </div>
-        @else
-            <!-- Default template -->
-            <div class="default-question">
-                {{ $question->question_text }}
-            </div>
+	    <div class="game-container">
+	        @if($activeHtmlTemplate)
+	            <!-- Custom template (game override or selected template) -->
+	            <div id="custom-game-template">
+	                {!! str_replace(array_keys($templateReplacements), array_values($templateReplacements), $activeHtmlTemplate) !!}
+	            </div>
 
-            <input type="text" id="answer-input" class="default-answer-input" placeholder="Ketik jawaban Anda di sini..." autofocus>
+                @if($question->options && count($question->options) > 0)
+                    <!-- Provide option items for template JS (hidden) -->
+                    <div id="option-items-source" style="display:none">
+                        @foreach($question->options as $key => $value)
+                            <div class="option-item" data-value="{{ $key }}">
+                                @if($templateType == 'true_false')
+                                    <span class="option-key">{{ $key == 'true' ? '✅' : '❌' }}</span>
+                                @else
+                                    <span class="option-key">{{ $key }}</span>
+                                @endif
+                                <span class="option-text">{{ $value }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+	        @else
+	            <!-- Default template -->
+	            <div class="default-question">
+	                {{ $question->question_text }}
+	            </div>
 
-            <button onclick="submitAnswer()" class="btn-submit" id="submit-btn">
-                Kirim Jawaban
-            </button>
-        @endif
+	            @if($question->options && count($question->options) > 0)
+	                <!-- Multiple choice / True-False options -->
+	                <div class="options-container" id="options-container">
+	                    @foreach($question->options as $key => $value)
+	                        <div class="option-item" data-value="{{ $key }}" onclick="selectOption(this, '{{ $key }}')">
+                            @if($templateType == 'true_false')
+                                <span class="option-key">{{ $key == 'true' ? '✅' : '❌' }}</span>
+                            @else
+                                <span class="option-key">{{ $key }}</span>
+                            @endif
+                            <span class="option-text">{{ $value }}</span>
+                        </div>
+                    @endforeach
+                </div>
+                <input type="hidden" id="answer-input" value="">
+	            @else
+	                <!-- Text input for non-multiple choice -->
+	                <input type="text" id="answer-input" class="default-answer-input" placeholder="Ketik jawaban Anda di sini..." autofocus>
+	            @endif
+	        @endif
 
-        <div id="feedback" class="feedback"></div>
-        <button onclick="nextQuestion()" class="btn-next" id="next-btn">Soal Berikutnya →</button>
-    </div>
+	        <button onclick="submitAnswer()" class="btn-submit" id="submit-btn">
+	            Kirim Jawaban
+	        </button>
+
+	        <div id="feedback" class="feedback"></div>
+	        <button onclick="nextQuestion()" class="btn-next" id="next-btn">Soal Berikutnya →</button>
+	    </div>
 
     <script>
         const sessionId = {{ $session->id }};
         const questionId = {{ $question->id }};
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+	        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-        // Custom JS from database
-        {!! $session->game->js_code !!}
+	        // Custom JS from database
+	        {!! $activeJsCode !!}
+
+            // Ensure answer input exists for template-based games
+            document.addEventListener("DOMContentLoaded", function () {
+                if (!document.getElementById("answer-input")) {
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.id = "answer-input";
+                    input.value = "";
+                    document.body.appendChild(input);
+                }
+            });
+
+        // Function to select option (for multiple choice)
+        function selectOption(element, value) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            
+            // Set the answer value
+            document.getElementById('answer-input').value = value;
+        }
 
         // Default submit answer function
         function submitAnswer() {
@@ -191,7 +347,8 @@
             const answer = answerInput ? answerInput.value.trim() : '';
 
             if (!answer) {
-                alert('Silakan isi jawaban terlebih dahulu!');
+                const isMultipleChoice = document.getElementById('options-container') !== null;
+                alert(isMultipleChoice ? 'Silakan pilih salah satu jawaban!' : 'Silakan isi jawaban terlebih dahulu!');
                 return;
             }
 

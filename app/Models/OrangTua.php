@@ -15,8 +15,11 @@ class OrangTua extends Model
     protected $fillable = [
         'parent_name',
         'child_name',
+        'gender',
         'email',
-        'password'
+        'password',
+        'phone',
+        'address',
     ];
 
     protected $hidden = [
