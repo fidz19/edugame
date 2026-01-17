@@ -162,10 +162,31 @@ class GameController extends Controller
         }
         $session->increment('total_score', $pointsEarned);
 
+        $question->loadMissing('game.template');
+        $templateType = $question->game?->template?->template_type;
+
+        $correctAnswerForUser = $question->correct_answer;
+        if (is_string($correctAnswerForUser)) {
+            $decodedCorrect = json_decode($correctAnswerForUser, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decodedCorrect)) {
+                if (is_array($question->options)) {
+                    $correctAnswerForUser = collect($decodedCorrect)
+                        ->map(fn ($key) => $question->options[$key] ?? $key)
+                        ->implode(' → ');
+                } else {
+                    $correctAnswerForUser = collect($decodedCorrect)->implode(' → ');
+                }
+            } elseif (is_array($question->options) && array_key_exists($correctAnswerForUser, $question->options)) {
+                $correctAnswerForUser = $question->options[$correctAnswerForUser];
+            } elseif ($templateType === 'labeled_diagram' && trim($correctAnswerForUser) !== '') {
+                $correctAnswerForUser = 'Titik ' . $correctAnswerForUser;
+            }
+        }
+
         return response()->json([
             'correct' => $isCorrect,
             'points' => $pointsEarned,
-            'correct_answer' => $question->correct_answer
+            'correct_answer' => $correctAnswerForUser
         ]);
     }
 

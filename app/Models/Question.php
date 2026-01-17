@@ -48,6 +48,21 @@ class Question extends Model
      */
     public function checkAnswer($answer)
     {
+        $correct = $this->correct_answer;
+
+        if (is_string($correct) && is_string($answer)) {
+            $decodedCorrect = json_decode($correct, true);
+            $decodedAnswer = json_decode($answer, true);
+
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decodedCorrect) && is_array($decodedAnswer)) {
+                $normalize = static fn ($value) => strtoupper(trim((string) $value));
+                $decodedCorrect = array_map($normalize, $decodedCorrect);
+                $decodedAnswer = array_map($normalize, $decodedAnswer);
+
+                return $decodedCorrect === $decodedAnswer;
+            }
+        }
+
         return strtolower(trim($answer)) === strtolower(trim($this->correct_answer));
     }
 }

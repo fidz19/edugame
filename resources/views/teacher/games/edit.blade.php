@@ -542,17 +542,82 @@
                         <!-- Word games -->
                         <div class="mb-3">
                             <label for="correct_answer" class="form-label">Kata Jawaban *</label>
-                            <input type="text" class="form-control" id="correct_answer" name="correct_answer"
-                                placeholder="Contoh: MADRASAH" required>
-                            <small class="text-muted">Masukkan kata jawaban yang harus ditebak/dieja/dicari.</small>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="correct_answer"
+                                name="correct_answer"
+                                placeholder="Contoh: MADRASAH"
+                                autocomplete="off"
+                                autocapitalize="characters"
+                                spellcheck="false"
+                                required
+                            >
+                            <small class="text-muted">Jawaban diketik (tidak butuh opsi), disimpan dalam huruf besar agar gameplay hurufnya konsisten.</small>
+                        </div>
+
+                    @elseif(in_array($templateType, ['ranking_order', 'word_magnet']))
+                        <div class="alert alert-info">
+                            💡 Template <strong>{{ $game->template->name ?? $templateType }}</strong> butuh <strong>4 item</strong>. Tentukan juga <strong>urutan yang benar</strong>.
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="option_a" class="form-label">Item A *</label>
+                                <input type="text" class="form-control" id="option_a" name="option_a"
+                                    placeholder="{{ $templateType === 'word_magnet' ? 'Kata A' : 'Item A' }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="option_b" class="form-label">Item B *</label>
+                                <input type="text" class="form-control" id="option_b" name="option_b"
+                                    placeholder="{{ $templateType === 'word_magnet' ? 'Kata B' : 'Item B' }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="option_c" class="form-label">Item C *</label>
+                                <input type="text" class="form-control" id="option_c" name="option_c"
+                                    placeholder="{{ $templateType === 'word_magnet' ? 'Kata C' : 'Item C' }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="option_d" class="form-label">Item D *</label>
+                                <input type="text" class="form-control" id="option_d" name="option_d"
+                                    placeholder="{{ $templateType === 'word_magnet' ? 'Kata D' : 'Item D' }}" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Urutan Benar *</label>
+                            <div class="row g-2">
+                                @for($i = 1; $i <= 4; $i++)
+                                    <div class="col-6 col-md-3">
+                                        <select class="form-select" name="correct_order[]" required>
+                                            <option value="">Posisi {{ $i }}</option>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                            <option value="D">D</option>
+                                        </select>
+                                    </div>
+                                @endfor
+                            </div>
+                            <small class="text-muted">Contoh urutan: A → B → C → D (tidak boleh ada yang sama).</small>
                         </div>
 
                     @elseif(in_array($templateType, $customTextTypes))
                         <!-- Math/Text Answer -->
                         <div class="mb-3">
                             <label for="correct_answer" class="form-label">Jawaban Benar *</label>
-                            <input type="text" class="form-control" id="correct_answer" name="correct_answer"
-                                placeholder="Masukkan jawaban yang benar (contoh: 8)" required>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="correct_answer"
+                                name="correct_answer"
+                                placeholder="Masukkan jawaban yang benar (contoh: 8)"
+                                inputmode="decimal"
+                                pattern="[0-9]*"
+                                autocomplete="off"
+                                required
+                            >
+                            <small class="text-muted">Isi angka hasil perhitungan. Di game, siswa menjawab lewat keypad angka.</small>
                         </div>
 
                     @else
@@ -640,6 +705,19 @@
                                             @if($question->correct_answer == $key) ✓ @endif
                                         </div>
                                     @endforeach
+                                    @if(in_array($gameTemplateType, ['ranking_order', 'word_magnet'], true))
+                                        @php
+                                            $decodedOrder = is_string($question->correct_answer)
+                                                ? json_decode($question->correct_answer, true)
+                                                : null;
+                                        @endphp
+                                        @if(is_array($decodedOrder) && count($decodedOrder) > 0)
+                                            <div class="option-item correct">
+                                                <strong>Urutan:</strong>
+                                                {{ collect($decodedOrder)->map(fn ($k) => ($question->options[$k] ?? $k))->implode(' → ') }}
+                                            </div>
+                                        @endif
+                                    @endif
 	                                @else
 	                                    <div class="option-item correct">
                                             @if($gameTemplateType === 'labeled_diagram')

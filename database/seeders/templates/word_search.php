@@ -33,13 +33,32 @@ return [
 document.addEventListener("DOMContentLoaded", function() {
     const grid = document.getElementById("word-grid");
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    for (let i = 0; i < 64; i++) {
+    const answer = ("JAWABAN" || "").toString().trim().toUpperCase();
+    const size = Math.max(8, Math.min(12, (answer.length || 8) + 2));
+    grid.style.gridTemplateColumns = `repeat(${size}, 40px)`;
+
+    const gridData = Array.from({ length: size }, () =>
+        Array.from({ length: size }, () => letters[Math.floor(Math.random() * letters.length)])
+    );
+
+    if (answer) {
+        const row = Math.floor(Math.random() * size);
+        const maxStart = Math.max(0, size - answer.length);
+        const startCol = Math.floor(Math.random() * (maxStart + 1));
+        Array.from(answer).forEach((ch, idx) => {
+            if (startCol + idx < size) {
+                gridData[row][startCol + idx] = ch;
+            }
+        });
+    }
+
+    gridData.flat().forEach((ch) => {
         const cell = document.createElement("div");
         cell.className = "grid-cell";
-        cell.textContent = letters[Math.floor(Math.random() * letters.length)];
+        cell.textContent = ch;
         cell.onclick = function() { this.classList.toggle("selected"); };
         grid.appendChild(cell);
-    }
+    });
 
     const wordInput = document.getElementById("word-input");
     const answerInput = document.getElementById("answer-input");

@@ -90,8 +90,8 @@ document.addEventListener("DOMContentLoaded", function() {
         keyboard.querySelectorAll("button").forEach(b => (b.disabled = true));
         guessWordInput.disabled = true;
         guessWordBtn.disabled = true;
-        status.textContent = win ? "Mantap! Kamu berhasil menebak katanya. Klik Kirim Jawaban." : "Game over. Coba lagi di sesi berikutnya.";
-        answerInput.value = win ? answer : "";
+        status.textContent = win ? "Mantap! Kamu berhasil menebak katanya. Klik Kirim Jawaban." : "Game over. Klik Kirim Jawaban untuk lanjut.";
+        answerInput.value = win ? answer : "__wrong__";
     }
 
     function tryLetter(letter, btn) {

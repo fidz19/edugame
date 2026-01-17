@@ -422,6 +422,36 @@ class TeacherController extends Controller
 
             $correctAnswer = $request->correct_answer;
 
+        } elseif (in_array($templateType, ['ranking_order', 'word_magnet'], true)) {
+            $request->validate([
+                'question_text' => 'required|string',
+                'option_a' => 'required|string',
+                'option_b' => 'required|string',
+                'option_c' => 'required|string',
+                'option_d' => 'required|string',
+                'correct_order' => ['required', 'array', 'size:4'],
+                'correct_order.*' => ['required', Rule::in(['A', 'B', 'C', 'D'])],
+            ]);
+
+            $order = array_map(
+                static fn ($value) => strtoupper(trim((string) $value)),
+                (array) $request->input('correct_order', [])
+            );
+
+            if (count(array_unique($order)) !== 4) {
+                return back()
+                    ->withErrors(['correct_order' => 'Urutan jawaban harus unik (tidak boleh ada yang sama).'])
+                    ->withInput();
+            }
+
+            $options = [
+                'A' => $request->option_a,
+                'B' => $request->option_b,
+                'C' => $request->option_c,
+                'D' => $request->option_d,
+            ];
+            $correctAnswer = json_encode(array_values($order));
+
         } elseif ($templateType == 'true_false') {
             // True or False
             $request->validate([
@@ -471,7 +501,7 @@ class TeacherController extends Controller
             ]);
 
             $options = null;
-            $correctAnswer = $request->correct_answer;
+            $correctAnswer = trim((string) $request->correct_answer);
 
         } else {
             // Default: multiple choice
@@ -581,6 +611,35 @@ class TeacherController extends Controller
                 'false' => 'Salah',
             ];
             $correctAnswer = $request->correct_answer;
+        } elseif (in_array($templateType, ['ranking_order', 'word_magnet'], true)) {
+            $request->validate([
+                'question_text' => 'required|string',
+                'option_a' => 'required|string',
+                'option_b' => 'required|string',
+                'option_c' => 'required|string',
+                'option_d' => 'required|string',
+                'correct_order' => ['required', 'array', 'size:4'],
+                'correct_order.*' => ['required', Rule::in(['A', 'B', 'C', 'D'])],
+            ]);
+
+            $order = array_map(
+                static fn ($value) => strtoupper(trim((string) $value)),
+                (array) $request->input('correct_order', [])
+            );
+
+            if (count(array_unique($order)) !== 4) {
+                return back()
+                    ->withErrors(['correct_order' => 'Urutan jawaban harus unik (tidak boleh ada yang sama).'])
+                    ->withInput();
+            }
+
+            $options = [
+                'A' => $request->option_a,
+                'B' => $request->option_b,
+                'C' => $request->option_c,
+                'D' => $request->option_d,
+            ];
+            $correctAnswer = json_encode(array_values($order));
         } elseif ($templateType === 'labeled_diagram') {
             $request->validate([
                 'question_text' => 'required|string',
@@ -612,7 +671,7 @@ class TeacherController extends Controller
             ]);
 
             $options = null;
-            $correctAnswer = $request->correct_answer;
+            $correctAnswer = trim((string) $request->correct_answer);
         } else {
             $needsFour = in_array($templateType, $requiresFourOptionsTypes, true);
 

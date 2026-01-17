@@ -11,9 +11,14 @@
             $wordLength = strlen((string) $question->correct_answer);
             $displayQuestionText = "Tebak kata ini ({$wordLength} huruf)";
         }
+    } elseif (in_array($templateType, ['spell_word', 'word_search'], true) && !trim((string) $displayQuestionText)) {
+        $wordLength = strlen((string) $question->correct_answer);
+        $displayQuestionText = $templateType === 'spell_word'
+            ? "Eja kata ini ({$wordLength} huruf)"
+            : "Cari kata dengan {$wordLength} huruf";
     }
 
-    if (in_array($templateType, ['hangman', 'crossword'], true)) {
+    if (in_array($templateType, ['hangman', 'crossword', 'word_search'], true)) {
         $activeJsCode = str_replace('"JAWABAN"', json_encode((string) $question->correct_answer), $activeJsCode);
     }
 
