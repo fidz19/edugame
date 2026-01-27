@@ -36,6 +36,14 @@ class GameResource extends Resource
             ->schema([
                 Forms\Components\Section::make('Informasi Game')
                     ->schema([
+                        Forms\Components\Select::make('template_id')
+                            ->label('Template Game')
+                            ->relationship('template', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->helperText('Pilih template yang akan digunakan (misal: Quiz Pilihan Ganda, TTS, dll).')
+                            ->visible(fn(Forms\Get $get) => !$get('custom_template_enabled')),
+
                         Forms\Components\TextInput::make('title')
                             ->label('Judul Game')
                             ->required()
@@ -67,6 +75,19 @@ class GameResource extends Resource
                                 'ips' => 'IPS',
                                 'umum' => 'Pengetahuan Umum',
                             ])
+                            ->searchable(),
+
+                        Forms\Components\Select::make('class')
+                            ->label('Kelas')
+                            ->options([
+                                '1' => 'Kelas 1',
+                                '2' => 'Kelas 2',
+                                '3' => 'Kelas 3',
+                                '4' => 'Kelas 4',
+                                '5' => 'Kelas 5',
+                                '6' => 'Kelas 6',
+                            ])
+                            ->helperText('Kosongkan jika untuk semua kelas')
                             ->searchable(),
                     ])
                     ->columns(2),
@@ -167,6 +188,13 @@ class GameResource extends Resource
                     ])
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('class')
+                    ->label('Kelas')
+                    ->badge()
+                    ->color('info')
+                    ->formatStateUsing(fn ($state) => $state ? "Kelas {$state}" : '-')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('questions_count')
                     ->label('Jumlah Soal')
                     ->counts('questions')
@@ -220,10 +248,18 @@ class GameResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\QuestionsRelationManager::class,
         ];
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->whereNull('teacher_id')
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
+    }
     public static function getPages(): array
     {
         return [

@@ -44,6 +44,55 @@ class Question extends Model
     }
 
     /**
+     * Get the options attribute
+     * Ensure it's always an array with string keys and values
+     */
+    public function getOptionsAttribute($value)
+    {
+        if (is_null($value)) {
+            return [];
+        }
+
+        $decoded = json_decode($value, true);
+        
+        if (!is_array($decoded)) {
+            return [];
+        }
+
+        // Ensure all keys and values are strings
+        $result = [];
+        foreach ($decoded as $key => $val) {
+            $result[(string)$key] = (string)$val;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Set the options attribute
+     * Ensure it's stored as JSON with string keys and values
+     */
+    public function setOptionsAttribute($value)
+    {
+        if (is_null($value) || empty($value)) {
+            $this->attributes['options'] = null;
+            return;
+        }
+
+        if (is_array($value)) {
+            // Ensure all keys and values are strings
+            $result = [];
+            foreach ($value as $key => $val) {
+                $result[(string)$key] = (string)$val;
+            }
+            $this->attributes['options'] = json_encode($result);
+        } else {
+            $this->attributes['options'] = $value;
+        }
+    }
+
+
+    /**
      * Check if answer is correct
      */
     public function checkAnswer($answer)

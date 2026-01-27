@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Permainan - World Languages Games</title>
+    <title>Daftar Permainan - Taman Belajar Sedjati</title>
     <style>
         body {
             margin: 0;
@@ -54,21 +54,67 @@
         .bubble:nth-child(9) { width: 65px; height: 65px; left: 45%; animation-duration: 17s; animation-delay: 8s; }
         .bubble:nth-child(10) { width: 75px; height: 75px; left: 28%; animation-duration: 21s; animation-delay: 4s; }
 
+        /* Interactive bubble effects */
+        .bubble {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .bubble:hover {
+            transform: scale(1.1);
+        }
+
+        .bubble.popping {
+            animation: pop 0.3s ease-out forwards;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+
         header {
             text-align: center;
-            padding: 60px 20px;
-            background: rgba(255, 255, 255, 0.5);
+            padding: 80px 20px 60px;
+            background: rgba(135, 206, 235, 0.3);
             position: relative;
             z-index: 2;
+            margin: 0;
         }
         h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             color: #1e3a8a;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            font-weight: 700;
         }
         header p {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #334155;
+            margin-bottom: 30px;
+        }
+
+        .welcome-box {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            padding: 20px 40px;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            color: white;
+            font-weight: 600;
         }
 
         .back-btn {
@@ -82,6 +128,7 @@
             font-weight: bold;
             box-shadow: 0 8px 20px rgba(255,215,0,0.4);
             z-index: 3;
+            transition: all 0.3s ease;
         }
         .back-btn:hover {
             background: #FFEC8B;
@@ -98,6 +145,7 @@
             position: relative;
             z-index: 2;
         }
+
         .game-card {
             background: rgba(255, 255, 255, 0.9);
             border: 6px solid #FFFFFF;
@@ -161,6 +209,43 @@
             z-index: 2;
         }
     </style>
+    <style>
+        .btn-history {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+            margin-top: 20px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            animation: pulse-btn 2s infinite;
+        }
+
+        .btn-history:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.6);
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        }
+
+        .btn-history:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes pulse-btn {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+    </style>
 </head>
 <body>
 
@@ -171,16 +256,150 @@
         <div class="bubble"></div>
     </div>
 
+    <script>
+        // Interactive bubble functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const bubbles = document.querySelectorAll('.bubble');
+            
+            bubbles.forEach(bubble => {
+                bubble.addEventListener('click', function(e) {
+                    // Add popping animation
+                    this.classList.add('popping');
+                    
+                    // Create splash effect
+                    createSplash(e.clientX, e.clientY);
+                    
+                    // Remove bubble after animation
+                    setTimeout(() => {
+                        this.classList.remove('popping');
+                        // Reset bubble position to create new one
+                        this.style.animation = 'none';
+                        setTimeout(() => {
+                            this.style.animation = '';
+                        }, 10);
+                    }, 300);
+                });
+            });
+            
+            function createSplash(x, y) {
+                const splash = document.createElement('div');
+                splash.style.position = 'fixed';
+                splash.style.left = x + 'px';
+                splash.style.top = y + 'px';
+                splash.style.width = '10px';
+                splash.style.height = '10px';
+                splash.style.borderRadius = '50%';
+                splash.style.background = 'rgba(255, 255, 255, 0.8)';
+                splash.style.pointerEvents = 'none';
+                splash.style.zIndex = '999';
+                splash.style.animation = 'splash 0.5s ease-out forwards';
+                
+                document.body.appendChild(splash);
+                
+                // Create multiple splash particles
+                for (let i = 0; i < 8; i++) {
+                    const particle = document.createElement('div');
+                    const angle = (Math.PI * 2 * i) / 8;
+                    const distance = 30 + Math.random() * 20;
+                    
+                    particle.style.position = 'fixed';
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.width = '5px';
+                    particle.style.height = '5px';
+                    particle.style.borderRadius = '50%';
+                    particle.style.background = 'rgba(135, 206, 235, 0.8)';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '999';
+                    
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance;
+                    
+                    particle.style.animation = `particle 0.6s ease-out forwards`;
+                    particle.style.setProperty('--tx', tx + 'px');
+                    particle.style.setProperty('--ty', ty + 'px');
+                    
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 600);
+                }
+                
+                setTimeout(() => splash.remove(), 500);
+            }
+        });
+        
+        // Add splash animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes splash {
+                0% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(3);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes particle {
+                0% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(var(--tx), var(--ty)) scale(0);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
     <a href="{{ route('home') }}" class="back-btn">← Kembali ke Home</a>
 
     <header>
-        <h1>🌊 Permainan World Languages 🫧</h1>
+        <h1>🌊 Permainan Kelas {{ $student->kelas ?? 'Taman Belajar Sedjati' }} 🫧</h1>
         <p>Belajar bahasa dengan petualangan seru di lautan biru yang cerah!</p>
         @if(session('student_name'))
-            <p style="font-size: 1.8rem; color: #1e3a8a; margin-top: 20px; font-weight: bold; background: rgba(255,255,255,0.8); padding: 15px 30px; border-radius: 50px; display: inline-block; box-shadow: 0 8px 20px rgba(30,58,138,0.2);">
+            <div class="welcome-box">
                 🎉 Selamat datang, {{ session('student_name') }}! 🎉
-            </p>
+            </div>
+            <br>
+            <a href="{{ route('games.history') }}" class="btn-history" style="text-decoration: none;">
+                <span style="font-size: 1.5rem;">📜</span> Riwayat Nilai Saya
+            </a>
         @endif
+
+
+
+        <style>
+            .btn-history {
+                background: white !important;
+                color: #1e3a8a !important;
+                padding: 15px 35px;
+                border-radius: 50px;
+                font-weight: bold;
+                box-shadow: 0 8px 20px rgba(30, 58, 138, 0.2);
+                transition: all 0.3s ease;
+                display: inline-block;
+                border: 2px solid #e0f7fa;
+            }
+            .btn-history:hover {
+                background: #f0f9ff !important;
+                transform: translateY(-3px);
+                box-shadow: 0 12px 25px rgba(30, 58, 138, 0.3);
+            }
+            
+            @keyframes slideIn {
+                from { transform: translateY(-50px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            @keyframes popIn {
+                from { transform: scale(0.8); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+            }
+        </style>
     </header>
 
     <div class="games-container">
@@ -213,7 +432,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 World Languages Games. Belajar bahasa jadi menyenangkan!</p>
+        <p>&copy; 2026 Taman Belajar Sedjati. Belajar bahasa jadi menyenangkan!</p>
     </footer>
 
 </body>

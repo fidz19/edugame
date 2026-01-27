@@ -29,6 +29,7 @@ Route::match(['get', 'post'], '/games/{slug}/start', [GameController::class, 'st
 Route::middleware(['CheckStudentLogin'])->group(function () {
     Route::get('/games', [GameController::class, 'index'])->name('games.index');
     Route::get('/games/all', [GameController::class, 'all'])->name('games.all');
+    Route::get('/games/history', [GameController::class, 'history'])->name('games.history'); // New History Route
     Route::get('/games/{slug}', [GameController::class, 'show'])->name('games.show');
     Route::get('/session/{id}/question', [GameController::class, 'getQuestion'])->name('games.question');
     Route::post('/session/{id}/answer', [GameController::class, 'submitAnswer'])->name('games.answer');

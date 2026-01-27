@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Game - {{ $game->title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
             margin: 0;
@@ -683,7 +684,7 @@
                                 <div class="question-actions">
                                     <form action="{{ route('teacher.games.questions.delete', [$game->id, $question->id]) }}"
                                         method="POST" style="display: inline;"
-                                        onsubmit="return confirm('Yakin ingin menghapus soal ini?')">
+                                        class="delete-question-form">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-sm btn-delete-q">🗑️ Hapus</button>
@@ -742,6 +743,97 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // SweetAlert2 for delete question confirmation
+        document.querySelectorAll('.delete-question-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: '🗑️ Hapus Soal?',
+                    html: '<p style="font-size: 1.1rem; color: #64748b;">Soal ini akan dihapus permanen!</p>',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#94a3b8',
+                    confirmButtonText: '✓ Ya, Hapus!',
+                    cancelButtonText: '✗ Batal',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'swal-custom',
+                        title: 'swal-title',
+                        confirmButton: 'swal-confirm',
+                        cancelButton: 'swal-cancel'
+                    },
+                    buttonsStyling: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        // Show success message if exists
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: '✅ Berhasil!',
+                text: '{{ session('success') }}',
+                confirmButtonColor: '#22c55e',
+                confirmButtonText: 'OK',
+                timer: 3000,
+                timerProgressBar: true
+            });
+        @endif
+
+        // Show error message if exists
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: '❌ Gagal!',
+                text: '{{ session('error') }}',
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: 'OK'
+            });
+        @endif
+    </script>
+    <style>
+        .swal-custom {
+            border-radius: 20px !important;
+            padding: 2rem !important;
+        }
+        .swal-title {
+            font-size: 1.8rem !important;
+            font-weight: 700 !important;
+        }
+        .swal-confirm {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+            color: white !important;
+            padding: 0.75rem 2rem !important;
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+        }
+        .swal-confirm:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4) !important;
+        }
+        .swal-cancel {
+            background: #f1f5f9 !important;
+            color: #475569 !important;
+            padding: 0.75rem 2rem !important;
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+        }
+        .swal-cancel:hover {
+            background: #e2e8f0 !important;
+        }
+    </style>
 </body>
 
 </html>

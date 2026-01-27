@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Guru - World Languages Games</title>
+    <title>Login Guru - Taman Belajar Sedjati</title>
     <style>
         * {
             margin: 0;
@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -152,7 +152,7 @@
         }
 
         .login-header h1 {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 32px;
@@ -189,15 +189,15 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #f093fb;
-            box-shadow: 0 0 0 4px rgba(240, 147, 251, 0.1);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
             transform: translateY(-2px);
         }
 
         .btn-login {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
             border: none;
             border-radius: 15px;
@@ -229,7 +229,7 @@
 
         .btn-login:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(240, 147, 251, 0.5);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5);
         }
 
         .btn-login:active {
@@ -262,7 +262,7 @@
         }
 
         .back-link a {
-            color: #f093fb;
+            color: #3b82f6;
             text-decoration: none;
             font-size: 15px;
             font-weight: 600;
@@ -270,7 +270,7 @@
         }
 
         .back-link a:hover {
-            color: #f5576c;
+            color: #1d4ed8;
             text-decoration: underline;
         }
 
@@ -343,13 +343,7 @@
             <a href="{{ route('home') }}">← Kembali ke Beranda</a>
         </div>
 
-        <div class="demo-info">
-            <strong>💡 Akun Demo Guru:</strong><br>
-            <div class="demo-credentials">
-                Email: <strong>guru.arab@gameedukasi.com</strong><br>
-                Password: <strong>Guru@2026!</strong>
-            </div>
-        </div>
+
     </div>
 </body>
 

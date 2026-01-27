@@ -25,7 +25,8 @@ class Game extends Model
         'order',
         'template_id',
         'teacher_id',
-        'template_config'
+        'template_config',
+        'class' // Added class field
     ];
 
     protected $casts = [

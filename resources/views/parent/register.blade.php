@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Akun Orang Tua - World Languages Games</title>
+    <title>Daftar Akun Orang Tua - Taman Belajar Sedjati</title>
     <style>
         * {
             margin: 0;

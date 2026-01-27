@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class GameController extends Controller
 {
     /**
-     * Show games index (dashboard for students)
+     * Show games index (dashboard for students) - ONLY TEACHER GAMES
      */
     public function index()
     {
@@ -19,15 +19,20 @@ class GameController extends Controller
             return redirect()->route('home')->with('error', 'Silakan login terlebih dahulu');
         }
 
+        $student = \App\Models\Student::find(session('student_id'));
+        
+        // HANYA game yang dibuat GURU (teacher_id NOT NULL)
         $games = Game::where('is_active', true)
+            ->whereNotNull('teacher_id') // Filter: hanya game guru
+            ->where('class', $student->kelas) // HANYA game untuk kelas siswa ini
             ->orderBy('order', 'asc')
             ->get();
 
-        return view('game.index', compact('games'));
+        return view('game.index', compact('games', 'student'));
     }
 
     /**
-     * Show all games
+     * Show all games - ONLY SPECIAL/ADMIN GAMES
      */
     public function all()
     {
@@ -35,11 +40,70 @@ class GameController extends Controller
             return redirect()->route('home')->with('error', 'Silakan login terlebih dahulu');
         }
 
+        $student = \App\Models\Student::find(session('student_id'));
+
+        // HANYA game yang dibuat ADMIN (teacher_id IS NULL)
+        // Game spesial untuk SEMUA siswa (tidak dibatasi kelas)
         $games = Game::where('is_active', true)
+            ->whereNull('teacher_id') // Filter: hanya game admin/spesial
             ->orderBy('order', 'asc')
             ->get();
 
-        return view('game.all', compact('games'));
+        return view('game.all', compact('games', 'student'));
+    }
+
+    /**
+     * Show history page
+     */
+    public function history()
+    {
+        if (!session('student_id')) {
+            return redirect()->route('home')->with('error', 'Silakan login terlebih dahulu');
+        }
+
+        $history_sessions = GameSession::where('student_id', session('student_id'))
+            ->with(['game'])
+            ->whereNotNull('completed_at')
+            ->latest()
+            ->get();
+
+        // Calculate Stats
+        $total_games = $history_sessions->count();
+        $total_score = $history_sessions->sum('total_score');
+        $highest_score = $history_sessions->max('total_score') ?? 0;
+        
+        // Split Scores: Weekly Games (Bahasa Indonesia) vs Teacher Games
+        $weekly_game_score = $history_sessions->filter(function ($session) {
+            return $session->game && $session->game->category === 'Bahasa Indonesia';
+        })->sum('total_score');
+
+        $teacher_game_score = $history_sessions->filter(function ($session) {
+            return $session->game && $session->game->category !== 'Bahasa Indonesia';
+        })->sum('total_score');
+
+        // Split Sessions for Display
+        $weekly_sessions = $history_sessions->filter(function ($session) {
+            return $session->game && $session->game->category === 'Bahasa Indonesia';
+        });
+
+        $teacher_sessions = $history_sessions->filter(function ($session) {
+            return $session->game && $session->game->category !== 'Bahasa Indonesia';
+        });
+
+        // Average Score
+        $average_score = $total_games > 0 ? round($history_sessions->avg('total_score')) : 0;
+
+        return view('game.history', compact(
+            'history_sessions', 
+            'total_games', 
+            'total_score', 
+            'highest_score', 
+            'average_score', 
+            'weekly_game_score', 
+            'teacher_game_score',
+            'weekly_sessions',
+            'teacher_sessions'
+        ));
     }
 
     /**

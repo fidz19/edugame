@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>World Games Languages - Home</title>
+  <title>taman belajar sedjati - Home</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
@@ -386,12 +386,12 @@
     }
 
     .games-section {
-      padding: 120px 8% 140px;
+      padding: 80px 8% 100px;
       text-align: center;
       background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(12px);
       border-radius: 40px 50px 0 0;
-      margin-top: -80px;
+      margin-top: 30px;
     }
 
     .games-section h2 {
@@ -500,8 +500,8 @@
     }
 
     .parents-section {
-      padding: 120px 8% 140px;
-      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      padding: 80px 8% 100px;
+      background: linear-gradient(135deg, rgba(240, 249, 255, 0.5) 0%, rgba(224, 242, 254, 0.5) 100%);
       backdrop-filter: blur(12px);
       border-radius: 50px 50px 0 0;
       position: relative;
@@ -601,7 +601,7 @@
     }
 
     .parents-image img:hover {
-      transform: scale(1.05) rotate(-2deg);
+      transform: scale(1.05);
       box-shadow: 0 25px 70px rgba(102, 126, 234, 0.4);
     }
 
@@ -806,21 +806,23 @@
 
     /* Custom Login Dropdown Styles */
     .nav-login-btn {
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
-      color: white !important;
+      background: linear-gradient(135deg, #FFD700, #FFC700);
+      color: #1e293b !important;
       padding: 10px 24px !important;
       border-radius: 50px;
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
       gap: 8px;
+      font-weight: 700;
     }
 
     .nav-login-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-      color: white !important;
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+      color: #1e293b !important;
+      background: linear-gradient(135deg, #FFED4E, #FFD700);
     }
 
     .nav-login-btn::after {
@@ -894,13 +896,14 @@
         overflow: visible; /* Changed from hidden to visible */
         border-radius: 40px;
         margin-top: 50px;
+        margin-bottom: 50px;
         border: 2px solid rgba(255, 255, 255, 0.6);
         box-shadow: 0 20px 50px rgba(30, 58, 138, 0.1);
     }
 
     .weekly-card {
         animation: pulse-glow 3s infinite;
-        border: 3px solid #60a5fa; /* Soft Blue */
+        border: 4px solid #FFD700; /* Yellow Frame */
         position: relative;
         background: white;
         padding-bottom: 60px; /* More space at the bottom */
@@ -909,37 +912,18 @@
     
     @keyframes pulse-glow {
         0% { box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.4); }
-        50% { box-shadow: 0 0 20px 5px rgba(96, 165, 250, 0.2); transform: translateY(-5px); }
+        50% { box-shadow: 0 0 20px 5px rgba(96, 165, 250, 0.2); } /* Removed transform: translateY */
         100% { box-shadow: 0 0 0 0 rgba(96, 165, 250, 0); }
     }
 
     .weekly-card:hover {
-        border-color: #3b82f6;
-        animation: none;
-        transform: translateY(-10px) scale(1.02);
+        border-color: #FFEC8B;
+        animation: none; /* Consider keeping animation or handling gracefully */
+        transform: translateY(-10px) scale(1.02); /* Ensure this is the only transform on hover */
+        transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease; /* Smoother easing */
     }
 
-    .new-badge {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        background: linear-gradient(135deg, #fbbf24, #d97706); /* Back to Gold/Orange Theme */
-        color: white;
-        padding: 5px 15px;
-        border-radius: 8px; /* Square with slight curve, NOT round/pill */
-        font-weight: 800;
-        font-size: 0.9rem;
-        box-shadow: 0 4px 6px rgba(217, 119, 6, 0.3);
-        transform: rotate(5deg); /* Subtle tilt */
-        z-index: 10;
-        border: 2px solid white;
-        animation: float-badge 2s infinite ease-in-out;
-    }
 
-    @keyframes float-badge {
-        0%, 100% { transform: rotate(10deg) translateY(0); }
-        50% { transform: rotate(10deg) translateY(-4px); }
-    }
   </style>
 </head>
 
@@ -956,8 +940,8 @@
     <div class="logo-container">
       <div class="logo">🌏</div>
       <div>
-        <div class="logo-text">World Languages Games⭐</div>
-        <div class="subtitle">Belajar Bahasa Sambil Bermain</div>
+        <div class="logo-text">Taman Belajar Sedjati Games⭐</div>
+        <div class="subtitle">Belajar Sambil Bermain</div>
       </div>
     </div>
 
@@ -969,7 +953,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle nav-login-btn" href="#" id="navbarDropdown" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
-            <span>🔐</span> Masuk
+            <span>☀️</span> Masuk
           </a>
           <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="navbarDropdown">
             <li>
@@ -1026,9 +1010,17 @@
 
         @forelse($weeklyGames as $game)
             <div class="game-card weekly-card">
-                <div class="new-badge">NEW ⚡</div>
                 <div class="card-icon">🎮</div>
                 <h3>{{ $game->title }}</h3>
+                
+                @if($game->class)
+                    <div style="margin: 10px 0;">
+                        <span style="display: inline-block; background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);">
+                            📚 Kelas {{ $game->class }}
+                        </span>
+                    </div>
+                @endif
+                
                 <p>{{ Str::limit($game->description, 80) }}</p>
                 
                 @if($game->slug == 'mencocokan-bahasa-inggris-arab' || $game->slug == 'tts-alat-tulis' || $game->slug == 'menghitung-huruf-hijaiyah')
@@ -1048,11 +1040,12 @@
             </div>
         @endforelse
       </div>
+      <a href="{{ route('games.all') }}" class="btn-gamelain" style="text-decoration: none;">Lebih banyak game</a>
     </section>
 
     <section class="games-section" id="games">
-      <h2>Pilih Permainan Yang Kamu Inginkan! 🌟</h2>
-      <p>Belajar bahasa sambil bermain yuk🎮</p>
+      <h2>Pilih Permainan yang sesuai dengan Kelas kamu! 🌟</h2>
+      <p>Belajar sambil berpetualang yuk🎮</p>
 
       <div class="games-grid">
         <div class="game-card">
@@ -1132,7 +1125,7 @@
 
         <div class="parents-text">
           <h2>Untuk Orang Tua: Belajar Bahasa Jadi Mudah & Menyenangkan!</h2>
-          <p>Kami paham kekhawatiran orang tua soal pendidikan anak. Dengan World Languages Games, anak belajar bahasa
+          <p>Kami paham kekhawatiran orang tua soal pendidikan anak. Dengan Taman Belajar Sedjati, anak belajar bahasa
             dengan menyenangkan. Berikut beberapa manfaatnya:</p>
 
           <ul class="parents-list">
@@ -1149,7 +1142,7 @@
           <button class="btn-parents" onclick="showParentLoginModal()">Lihat Dashboard Orang Tua</button>
         </div>
       </div>
-    </section>
+  </section>
   </main>
 
   <!-- Student Login Modal -->
@@ -1258,23 +1251,25 @@
             </p>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-
-        <!-- Enhanced Footer -->
-        <footer
-          style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); color: white; padding: 60px 8% 20px; position: relative; z-index: 1; margin-top: 80px;">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <!-- Footer Content -->
-            <div
-              style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+  <!-- Enhanced Footer -->
+  <footer
+    style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color: white; padding: 60px 8% 20px; position: relative; z-index: 1; margin-top: 80px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <!-- Footer Content -->
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
 
               <!-- About Section -->
               <div>
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
                   <div style="font-size: 2.5rem;">🌏</div>
                   <div>
-                    <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">World Languages Games</h3>
-                    <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.8);">Belajar Bahasa Sambil
+                    <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Taman Belajar Sedjati Games</h3>
+                    <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.8);">Belajar Sambil
                       Bermain</p>
                   </div>
                 </div>
@@ -1317,7 +1312,7 @@
 
               <!-- Login Links -->
               <div>
-                <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Akses Login</h4>
+                <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Login</h4>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                   <li style="margin-bottom: 12px;">
                     <a href="javascript:void(0)" onclick="showLoginModal()"
@@ -1337,12 +1332,6 @@
                       <span>📝</span> Daftar Akun Baru
                     </a>
                   </li>
-                  <li style="margin-bottom: 12px;">
-                    <a href="/admin"
-                      style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                      <span>⚙️</span> Admin Panel
-                    </a>
-                  </li>
                 </ul>
               </div>
 
@@ -1352,7 +1341,7 @@
                 <ul style="list-style: none; padding: 0; margin: 0;">
                   <li
                     style="margin-bottom: 12px; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
-                    <span>📧</span> info@worldlanguagesgames.com
+                    <span>📧</span> info@tamanbelajarsedjati.com
                   </li>
                   <li
                     style="margin-bottom: 12px; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
@@ -1360,24 +1349,26 @@
                   </li>
                   <li
                     style="margin-bottom: 12px; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
-                    <span>🌐</span> www.worldlanguagesgames.com
+                    <span>🌐</span> www.tamanbelajarsedjati.com
                   </li>
                 </ul>
               </div>
             </div>
 
-            <!-- Footer Bottom -->
-            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 30px; text-align: center;">
-              <p style="margin: 0 0 15px 0; font-size: 0.95rem;">
-                © 2025 World Languages Games • Dikembangkan dengan ❤️ oleh <span
-                  style="color: #FFD700; font-weight: bold;">Sedjati Flora Game ⭐</span>
-              </p>
-              <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.7);">
-                Platform edukatif untuk mendukung pembelajaran bahasa anak Indonesia
-              </p>
-            </div>
-          </div>
-        </footer>
+      <!-- Footer Bottom -->
+      <div style="border-top: 1px solid rgba(0, 126, 205, 0.2); padding-top: 30px; text-align: center;">
+        <p style="margin: 0 0 15px 0; font-size: 0.95rem;">
+          © 2026 Taman Belajar Sedjati Games • Dikembangkan dengan ❤️ oleh <span
+            style="color: #FFD700; font-weight: bold;">Sedjati Flora Game ⭐</span>
+        </p>
+        <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+          Platform edukatif untuk mendukung pembelajaran bahasa anak Indonesia
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  </main>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>

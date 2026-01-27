@@ -230,6 +230,11 @@ class TeacherController extends Controller
             'category' => 'nullable|string',
         ]);
 
+        // RESTRICTION: Teachers cannot create 'Bahasa Indonesia' games (Weekly Games)
+        if ($request->category === 'Bahasa Indonesia') {
+            return back()->withInput()->with('error', 'Maaf, kategori "Bahasa Indonesia" hanya untuk Game Mingguan yang dikelola Admin.');
+        }
+
         $game = Game::create([
             'template_id' => $request->template_id,
             'teacher_id' => session('teacher_id'),
@@ -281,11 +286,26 @@ class TeacherController extends Controller
             'is_active' => 'boolean',
         ]);
 
+        // RESTRICTION: Teachers cannot use 'Bahasa Indonesia' category
+        if ($request->category === 'Bahasa Indonesia') { // Note: Category might not be in the form if not editable, but good to check if it was passed
+             // If category is not in the form, this check might be irrelevant unless we allow changing category on edit.
+             // Looking at edit view (I need to check it), usually category is editable.
+             // Let's assume for now we want to block it if they try to hack it in, 
+             // BUT wait, does the edit form even have category? 
+             // The validation above only validates title, description, is_active. 
+             // Let's check the update call. 
+             // The update call below ONLY updates title, slug, description, is_active. 
+             // It does NOT update category.
+             // So teachers effectively cannot change category after creation anyway based on this controller code.
+             // However, let's keep the code clean. 
+        }
+
         $game->update([
             'title' => $request->title,
             'slug' => $this->generateUniqueSlug($request->title, $game->id),
             'description' => $request->description,
             'is_active' => $request->has('is_active'),
+            // Category is NOT updated here in the original code, so no need to add restriction here unless we change that.
         ]);
 
         return redirect()->route('teacher.games')

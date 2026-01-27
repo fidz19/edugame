@@ -330,15 +330,7 @@
 
                         <div class="mb-3">
                             <label for="category" class="form-label">Kategori</label>
-                            <select class="form-select" id="category" name="category">
-                                <option value="">Pilih Kategori</option>
-                                <option value="Matematika" {{ old('category') == 'Matematika' ? 'selected' : '' }}>Matematika</option>
-                                <option value="Bahasa Indonesia" {{ old('category') == 'Bahasa Indonesia' ? 'selected' : '' }}>Bahasa Indonesia</option>
-                                <option value="Bahasa Inggris" {{ old('category') == 'Bahasa Inggris' ? 'selected' : '' }}>Bahasa Inggris</option>
-                                <option value="IPA" {{ old('category') == 'IPA' ? 'selected' : '' }}>IPA</option>
-                                <option value="IPS" {{ old('category') == 'IPS' ? 'selected' : '' }}>IPS</option>
-                                <option value="Lainnya" {{ old('category') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
-                            </select>
+                            <input type="text" class="form-control" id="category" name="category" value="{{ old('category') }}" placeholder="Contoh: Matematika, IPA, Sejarah" required>
                         </div>
                     </div>
 

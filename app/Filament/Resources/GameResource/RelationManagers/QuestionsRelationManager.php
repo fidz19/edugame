@@ -1,45 +1,25 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\GameResource\RelationManagers;
 
-use App\Filament\Resources\QuestionResource\Pages;
-use App\Models\Question;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class QuestionResource extends Resource
+class QuestionsRelationManager extends RelationManager
 {
-    protected static ?string $model = Question::class;
+    protected static string $relationship = 'Questions';
 
-    protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
-
-    protected static ?string $navigationLabel = 'Pertanyaan';
-
-    protected static ?string $modelLabel = 'Pertanyaan';
-
-    protected static ?string $pluralModelLabel = 'Pertanyaan';
-
-    protected static ?string $navigationGroup = 'Manajemen Game';
-
-    protected static ?int $navigationSort = 2;
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Section::make('Informasi Pertanyaan')
                     ->schema([
-                        Forms\Components\Select::make('game_id')
-                            ->label('Game')
-                            ->relationship('game', 'title')
-                            ->required()
-                            ->searchable()
-                            ->preload(),
-
                         Forms\Components\Textarea::make('question_text')
                             ->label('Teks Pertanyaan')
                             ->required()
@@ -68,10 +48,8 @@ class QuestionResource extends Resource
                             ->keyLabel('Opsi')
                             ->valueLabel('Nilai')
                             ->addActionLabel('Tambah Opsi')
-                            ->helperText('Opsional. Untuk soal pilihan ganda. Contoh: a → yellow, b → red, c → green')
-                            ->reorderable(false)
-                            ->columnSpanFull()
-                            ->default([]),
+                            ->helperText('Opsional. Untuk soal pilihan ganda')
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
 
@@ -103,17 +81,11 @@ class QuestionResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('question_text')
             ->columns([
-                Tables\Columns\TextColumn::make('game.title')
-                    ->label('Game')
-                    ->searchable()
-                    ->sortable()
-                    ->badge()
-                    ->color('primary'),
-
                 Tables\Columns\TextColumn::make('question_text')
                     ->label('Pertanyaan')
                     ->searchable()
@@ -143,35 +115,14 @@ class QuestionResource extends Resource
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('Aktif')
                     ->sortable(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat')
-                    ->dateTime('d M Y')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('game')
-                    ->relationship('game', 'title')
-                    ->searchable()
-                    ->preload(),
-
-                Tables\Filters\SelectFilter::make('difficulty')
-                    ->label('Kesulitan')
-                    ->options([
-                        'easy' => 'Mudah',
-                        'medium' => 'Sedang',
-                        'hard' => 'Sulit',
-                    ]),
-
-                Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Status')
-                    ->placeholder('Semua')
-                    ->trueLabel('Aktif')
-                    ->falseLabel('Nonaktif'),
+                //
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -180,23 +131,5 @@ class QuestionResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->whereHas('game', function (Builder $query) {
-                $query->whereNull('teacher_id');
-            });
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListQuestions::route('/'),
-            'create' => Pages\CreateQuestion::route('/create'),
-            'view' => Pages\ViewQuestion::route('/{record}'),
-            'edit' => Pages\EditQuestion::route('/{record}/edit'),
-        ];
     }
 }
