@@ -917,7 +917,8 @@
     }
 
     .nav-login-btn::after {
-      display: none !important; /* Hide default bootstrap arrow if preferred, or style it */
+      display: none !important;
+      /* Hide default bootstrap arrow if preferred, or style it */
     }
 
     .custom-dropdown-menu {
@@ -937,6 +938,7 @@
         opacity: 0;
         transform: translateY(10px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -980,38 +982,55 @@
 
     /* Weekly Games Styles */
     .weekly-games-section {
-        background: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(10px);
-        padding: 50px 4% 80px; /* Reduced horizontal padding for wider look */
-        position: relative;
-        overflow: visible; /* Changed from hidden to visible */
-        border-radius: 40px;
-        margin-top: 50px;
-        margin-bottom: 50px;
-        border: 2px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0 20px 50px rgba(30, 58, 138, 0.1);
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      padding: 50px 4% 80px;
+      /* Reduced horizontal padding for wider look */
+      position: relative;
+      overflow: visible;
+      /* Changed from hidden to visible */
+      border-radius: 40px;
+      margin-top: 50px;
+      margin-bottom: 50px;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 20px 50px rgba(30, 58, 138, 0.1);
     }
 
     .weekly-card {
-        animation: pulse-glow 3s infinite;
-        border: 4px solid #FFD700; /* Yellow Frame */
-        position: relative;
-        background: white;
-        padding-bottom: 60px; /* More space at the bottom */
-        overflow: visible; /* Ensure badge can be seen outside */
+      animation: pulse-glow 3s infinite;
+      border: 4px solid #FFD700;
+      /* Yellow Frame */
+      position: relative;
+      background: white;
+      padding-bottom: 60px;
+      /* More space at the bottom */
+      overflow: visible;
+      /* Ensure badge can be seen outside */
     }
-    
+
     @keyframes pulse-glow {
-        0% { box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.4); }
-        50% { box-shadow: 0 0 20px 5px rgba(96, 165, 250, 0.2); } /* Removed transform: translateY */
-        100% { box-shadow: 0 0 0 0 rgba(96, 165, 250, 0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 20px 5px rgba(96, 165, 250, 0.2);
+      }
+
+      /* Removed transform: translateY */
+      100% {
+        box-shadow: 0 0 0 0 rgba(96, 165, 250, 0);
+      }
     }
 
     .weekly-card:hover {
-        border-color: #FFEC8B;
-        animation: none; /* Consider keeping animation or handling gracefully */
-        transform: translateY(-10px) scale(1.02); /* Ensure this is the only transform on hover */
-        transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease; /* Smoother easing */
+      border-color: #FFEC8B;
+      animation: none;
+      /* Consider keeping animation or handling gracefully */
+      transform: translateY(-10px) scale(1.02);
+      /* Ensure this is the only transform on hover */
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+      /* Smoother easing */
     }
 
     /* Title Animation */
@@ -1020,6 +1039,7 @@
         opacity: 0;
         transform: translateY(30px);
       }
+
       100% {
         opacity: 1;
         transform: translateY(0);
@@ -1031,7 +1051,6 @@
       color: #FFD700 !important;
       transform: none !important;
     }
-
   </style>
 </head>
 
@@ -1067,7 +1086,8 @@
           </a>
           <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="navbarDropdown">
             <li>
-              <a class="dropdown-item custom-dropdown-item student" href="javascript:void(0)" onclick="showLoginModal()">
+              <a class="dropdown-item custom-dropdown-item student" href="javascript:void(0)"
+                onclick="showLoginModal()">
                 <span class="dropdown-icon">🎓</span> Login Siswa
               </a>
             </li>
@@ -1099,7 +1119,7 @@
       <div class="hero-content">
         <h1>Belajar Bahasa <br>Sambil Bermain Dengan Permainan Yang Seru!</h1>
         <p>Ayo mulai petualangan belajar bahasamu sekarang!</p>
-        
+
         <button class="btn-primary" onclick="showLoginModal()">🚀 Mulai Bermain</button>
       </div>
 
@@ -1115,48 +1135,58 @@
         <h2 style="font-size: 3rem; font-weight: 800; color: #1e3a8a; margin-bottom: 15px;">
           🔥 Game Spesial Minggu Ini
         </h2>
-        <p style="font-size: 1.2rem; color: #475569;">Cobain game terbaru yang baru aja rilis! Jangan sampai ketinggalan serunya! 🚀</p>
+        <p style="font-size: 1.2rem; color: #475569;">Cobain game terbaru yang baru aja rilis! Jangan sampai ketinggalan
+          serunya! 🚀</p>
       </div>
 
       <div class="games-grid">
         @php
-            $weeklyGames = \App\Models\Game::where('is_active', true)
-                ->whereNull('teacher_id')
-                ->latest()
-                ->take(3)
-                ->get();
+          $weeklyGames = \App\Models\Game::where('is_active', true)
+            ->whereNull('teacher_id')
+            ->latest()
+            ->take(3)
+            ->get();
         @endphp
 
         @forelse($weeklyGames as $game)
-            <div class="game-card weekly-card">
-                <div class="card-icon">🎮</div>
-                <h3>{{ $game->title }}</h3>
-                
-                @if($game->class)
-                    <div style="margin: 10px 0;">
-                        <span style="display: inline-block; background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);">
-                            📚 Kelas {{ $game->class }}
-                        </span>
-                    </div>
-                @endif
-                
-                <p>{{ Str::limit($game->description, 80) }}</p>
-                
-                @if($game->slug == 'mencocokan-bahasa-inggris-arab' || $game->slug == 'tts-alat-tulis' || $game->slug == 'menghitung-huruf-hijaiyah')
-                     <form action="{{ route('games.start', $game->slug) }}" method="POST" style="margin: 0;">
-                        @csrf
-                        <button type="submit" class="game-btn">🚀 Mainkan</button>
-                     </form>
-                @else
-                    <!-- For custom games -->
-                     <a href="{{ route('games.show', $game->slug) }}" class="game-btn" style="text-decoration: none; display: inline-block;">🚀 Mainkan</a>
-                @endif
-            </div>
+          <div class="game-card weekly-card">
+            <div class="card-icon">🎮</div>
+            <h3>{{ $game->title }}</h3>
+
+            @if($game->class)
+              <div style="margin: 10px 0;">
+                <span
+                  style="display: inline-block; background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);">
+                  📚 Kelas {{ $game->class }}
+                </span>
+              </div>
+            @endif
+
+            <p>{{ Str::limit($game->description, 80) }}</p>
+
+            @if(session('student_id'))
+              {{-- User sudah login --}}
+              @if($game->slug == 'mencocokan-bahasa-inggris-arab' || $game->slug == 'tts-alat-tulis' || $game->slug == 'menghitung-huruf-hijaiyah')
+                <form action="{{ route('games.start', $game->slug) }}" method="POST" style="margin: 0;">
+                  @csrf
+                  <button type="submit" class="game-btn">🚀 Mainkan</button>
+                </form>
+              @else
+                <!-- For custom games -->
+                <a href="{{ route('games.show', $game->slug) }}" class="game-btn"
+                  style="text-decoration: none; display: inline-block;">🚀 Mainkan</a>
+              @endif
+            @else
+              {{-- User belum login - tampilkan modal login --}}
+              <button type="button" class="game-btn" onclick="showLoginModal()">🚀 Mainkan</button>
+            @endif
+          </div>
         @empty
-            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: rgba(255,255,255,0.5); border-radius: 20px;">
-                <h3>🚧 Belum ada game minggu ini</h3>
-                <p>Tunggu update selanjutnya ya!</p>
-            </div>
+          <div
+            style="grid-column: 1 / -1; text-align: center; padding: 40px; background: rgba(255,255,255,0.5); border-radius: 20px;">
+            <h3>🚧 Belum ada game minggu ini</h3>
+            <p>Tunggu update selanjutnya ya!</p>
+          </div>
         @endforelse
       </div>
       <a href="{{ route('games.all') }}" class="btn-gamelain" style="text-decoration: none;">Lebih banyak game</a>
@@ -1168,45 +1198,54 @@
 
       <div class="games-grid">
         @php
-            $teacherGames = \App\Models\Game::where('is_active', true)
-                ->whereNotNull('teacher_id')
-                ->latest()
-                ->take(3)
-                ->get();
+          $teacherGames = \App\Models\Game::where('is_active', true)
+            ->whereNotNull('teacher_id')
+            ->latest()
+            ->take(3)
+            ->get();
         @endphp
 
         @forelse($teacherGames as $game)
-            <div class="game-card">
-                <div class="card-icon">
-                    @if($game->template)
-                        {{ $game->template->icon }}
-                    @else
-                        📚
-                    @endif
-                </div>
-                <h3>{{ $game->title }}</h3>
-                @if($game->class)
-                    <div style="margin-bottom: 15px;">
-                        <span style="background: #fdf2f2; color: #991b1b; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
-                            Kelas {{ $game->class }}
-                        </span>
-                    </div>
-                @endif
-                <p>{{ Str::limit($game->description, 80) }}</p>
-                <form action="{{ route('games.start', $game->slug) }}" method="POST" style="margin: 0;">
-                    @csrf
-                    <button type="submit" class="game-btn" style="border: none; cursor: pointer; width: 100%;">
-                        🚀 Ayo Mainkan Sekarang
-                    </button>
-                </form>
+          <div class="game-card">
+            <div class="card-icon">
+              @if($game->template)
+                {{ $game->template->icon }}
+              @else
+                📚
+              @endif
             </div>
+            <h3>{{ $game->title }}</h3>
+            @if($game->class)
+              <div style="margin-bottom: 15px;">
+                <span
+                  style="background: #fdf2f2; color: #991b1b; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                  Kelas {{ $game->class }}
+                </span>
+              </div>
+            @endif
+            <p>{{ Str::limit($game->description, 80) }}</p>
+            @if(session('student_id'))
+              <form action="{{ route('games.start', $game->slug) }}" method="POST" style="margin: 0;">
+                @csrf
+                <button type="submit" class="game-btn" style="border: none; cursor: pointer; width: 100%;">
+                  🚀 Ayo Mainkan Sekarang
+                </button>
+              </form>
+            @else
+              <button type="button" class="game-btn" style="border: none; cursor: pointer; width: 100%;"
+                onclick="showLoginModal()">
+                🚀 Ayo Mainkan Sekarang
+              </button>
+            @endif
+          </div>
         @empty
-            <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                <p style="color: #999;">Belum ada game dari guru tersedia saat ini.</p>
-            </div>
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+            <p style="color: #999;">Belum ada game dari guru tersedia saat ini.</p>
+          </div>
         @endforelse
       </div>
-      <a href="{{ route('games.index') }}" class="btn-gamelain" style="text-decoration: none;">Lebih banyak game dari Guru</a>
+      <a href="{{ route('games.index') }}" class="btn-gamelain" style="text-decoration: none;">Lebih banyak game dari
+        Guru</a>
     </section>
 
     <section class="games-section" style="background: linear-gradient(135deg, #caf0f8 0%, #ade8f4 100%);">
@@ -1218,14 +1257,21 @@
       @endphp
 
       @if($posters->count() > 0)
-        <div class="games-grid">
+        <div
+          style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; max-width: 1100px; margin: 0 auto;">
           @foreach($posters as $poster)
-            <div class="game-card">
-              <img src="{{ asset($poster->image) }}" alt="{{ $poster->title }}"
-                style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;">
-              <div style="padding: 20px;">
+            <div class="game-card" style="max-width: 320px; cursor: pointer;"
+              onclick="openPosterModal('{{ asset('storage/' . $poster->image) }}', '{{ $poster->title }}')">
+              <div
+                style="width: 100%; height: 400px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 15px 15px 0 0; overflow: hidden;">
+                <img src="{{ asset('storage/' . $poster->image) }}" alt="{{ $poster->title }}"
+                  style="max-width: 100%; max-height: 100%; object-fit: contain;">
+              </div>
+              <div style="padding: 20px; text-align: center;">
                 <h3 style="margin-bottom: 10px;">{{ $poster->title }}</h3>
-                <p style="color: #666; font-size: 14px;">{{ Str::limit($poster->description, 80) }}</p>
+                <p style="color: #666; font-size: 14px; word-break: break-word; overflow-wrap: break-word;">
+                  {{ Str::limit($poster->description, 60) }}
+                </p>
                 @if($poster->category)
                   <span
                     style="display: inline-block; background: #e0e7ff; color: #4c51bf; padding: 4px 12px; border-radius: 12px; font-size: 12px; margin-top: 10px;">{{ $poster->category }}</span>
@@ -1265,7 +1311,7 @@
           <button class="btn-parents" onclick="showParentLoginModal()">Lihat Dashboard Orang Tua</button>
         </div>
       </div>
-  </section>
+    </section>
   </main>
 
   <!-- Student Login Modal -->
@@ -1378,6 +1424,19 @@
     </div>
   </div>
 
+  <!-- Poster Lightbox Modal -->
+  <div id="posterModal"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; cursor: pointer;"
+    onclick="closePosterModal()">
+    <div style="position: relative; max-width: 90%; max-height: 90%; text-align: center;">
+      <img id="poster-modal-image" src="" alt=""
+        style="max-width: 100%; max-height: 85vh; border-radius: 10px; box-shadow: 0 10px 50px rgba(0,0,0,0.5);">
+      <h3 id="poster-modal-title" style="color: white; margin-top: 20px; font-size: 1.5rem;"></h3>
+      <button onclick="closePosterModal()"
+        style="position: absolute; top: -50px; right: -10px; background: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">×</button>
+    </div>
+  </div>
+
   <footer
     style="background: linear-gradient(to bottom, #4A90F7, #3B82F6); color: white; padding: 60px 8% 20px; position: relative; z-index: 1; margin-top: 80px; border-top: 1px solid rgba(255,255,255,0.1);">
     <div style="max-width: 1200px; margin: 0 auto;">
@@ -1385,107 +1444,108 @@
       <div
         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
 
-              <!-- About Section -->
-              <div>
-                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
-                  <!-- Logo with Background -->
-                  <div style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.9); padding: 12px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
-                    <img src="{{ asset('images/logo/logo.png') }}" alt="Logo" style="width: 100%; height: auto;">
-                  </div>
-                  
-                  <div>
-                    <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Taman Belajar Sedjati Games</h3>
-                    <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.8);">Belajar Sambil
-                      Bermain</p>
-                  </div>
-                </div>
-                <p style="color: rgba(255,255,255,0.9); line-height: 1.6; font-size: 0.95rem;">
-                  Platform edukatif untuk anak-anak belajar bahasa dengan cara yang menyenangkan melalui permainan
-                  interaktif.
-                </p>
-              </div>
-
-              <!-- Quick Links -->
-              <div>
-                <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Menu Cepat</h4>
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                  <li style="margin-bottom: 12px;">
-                    <a href="#home"
-                      style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                      <span>🏠</span> Beranda
-                    </a>
-                  </li>
-                  <li style="margin-bottom: 12px;">
-                    <a href="#games"
-                      style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                      <span>🎮</span> Permainan
-                    </a>
-                  </li>
-                  <li style="margin-bottom: 12px;">
-                    <a href="#parents"
-                      style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                      <span>👨‍👩‍👧</span> Untuk Orang Tua
-                    </a>
-                  </li>
-                  <li style="margin-bottom: 12px;">
-                    <a href="{{ route('posters.index') }}"
-                      style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                      <span>📸</span> Poster Edukatif
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              <!-- Login Links -->
-              <div>
-                <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Login</h4>
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                  <li style="margin-bottom: 12px;">
-                    <a href="javascript:void(0)" onclick="showLoginModal()"
-                      style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                      <span>🎮</span> Login Siswa
-                    </a>
-                  </li>
-                  <li style="margin-bottom: 12px;">
-                    <a href="{{ route('teacher.login') }}"
-                      style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                      <span>👨‍🏫</span> Login Guru
-                    </a>
-                  </li>
-                  <li style="margin-bottom: 12px;">
-                    <a href="{{ route('parent.login') }}"
-                      style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                      <span>👨‍👩‍👧</span> Login Orang Tua
-                    </a>
-                  </li>
-                  <li style="margin-bottom: 12px;">
-                    <a href="{{ route('parent.register') }}"
-                      style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                      <span>📝</span> Daftar Akun Baru
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              <!-- Contact Info -->
-              <div>
-                <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Hubungi Kami</h4>
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                  <li
-                    style="margin-bottom: 12px; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
-                    <span>📧</span> info@tamanbelajarsedjati.com
-                  </li>
-                  <li
-                    style="margin-bottom: 12px; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
-                    <span>📱</span> +62 822-3734-3764
-                  </li>
-                  <li
-                    style="margin-bottom: 12px; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
-                    <span>🌐</span> https://tamanbelajarsedjati.com/
-                  </li>
-                </ul>
-              </div>
+        <!-- About Section -->
+        <div>
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+            <!-- Logo with Background -->
+            <div
+              style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.9); padding: 12px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+              <img src="{{ asset('images/logo/logo.png') }}" alt="Logo" style="width: 100%; height: auto;">
             </div>
+
+            <div>
+              <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Taman Belajar Sedjati Games</h3>
+              <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.8);">Belajar Sambil
+                Bermain</p>
+            </div>
+          </div>
+          <p style="color: rgba(255,255,255,0.9); line-height: 1.6; font-size: 0.95rem;">
+            Platform edukatif untuk anak-anak belajar bahasa dengan cara yang menyenangkan melalui permainan
+            interaktif.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Menu Cepat</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 12px;">
+              <a href="#home"
+                style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                <span>🏠</span> Beranda
+              </a>
+            </li>
+            <li style="margin-bottom: 12px;">
+              <a href="#games"
+                style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                <span>🎮</span> Permainan
+              </a>
+            </li>
+            <li style="margin-bottom: 12px;">
+              <a href="#parents"
+                style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                <span>👨‍👩‍👧</span> Untuk Orang Tua
+              </a>
+            </li>
+            <li style="margin-bottom: 12px;">
+              <a href="{{ route('posters.index') }}"
+                style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                <span>📸</span> Poster Edukatif
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Login Links -->
+        <div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Login</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 12px;">
+              <a href="javascript:void(0)" onclick="showLoginModal()"
+                style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                <span>🎮</span> Login Siswa
+              </a>
+            </li>
+            <li style="margin-bottom: 12px;">
+              <a href="{{ route('teacher.login') }}"
+                style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                <span>👨‍🏫</span> Login Guru
+              </a>
+            </li>
+            <li style="margin-bottom: 12px;">
+              <a href="{{ route('parent.login') }}"
+                style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                <span>👨‍👩‍👧</span> Login Orang Tua
+              </a>
+            </li>
+            <li style="margin-bottom: 12px;">
+              <a href="{{ route('parent.register') }}"
+                style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                <span>📝</span> Daftar Akun Baru
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Hubungi Kami</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li
+              style="margin-bottom: 12px; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
+              <span>📧</span> info@tamanbelajarsedjati.com
+            </li>
+            <li
+              style="margin-bottom: 12px; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
+              <span>📱</span> +62 822-3734-3764
+            </li>
+            <li
+              style="margin-bottom: 12px; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
+              <span>🌐</span> https://tamanbelajarsedjati.com/
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <!-- Footer Bottom -->
       <div style="border-top: 1px solid rgba(0, 126, 205, 0.2); padding-top: 30px; text-align: center;">
@@ -1502,59 +1562,84 @@
 
   </main>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-          function showLoginModal() {
-            const modal = new bootstrap.Modal(document.getElementById('loginModal'));
-            modal.show();
-          }
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function showLoginModal() {
+      const modal = new bootstrap.Modal(document.getElementById('loginModal'));
+      modal.show();
+    }
 
-          function showParentLoginModal() {
-            const modal = new bootstrap.Modal(document.getElementById('parentLoginModal'));
-            modal.show();
-          }
+    function showParentLoginModal() {
+      const modal = new bootstrap.Modal(document.getElementById('parentLoginModal'));
+      modal.show();
+    }
 
-          // Auto-show login modal if there's an error or show_login flag
-          @if(session('error') || session('show_login'))
-            document.addEventListener('DOMContentLoaded', function () {
-              showLoginModal();
-            });
-          @endif
+    function openPosterModal(imageSrc, title) {
+      event.stopPropagation();
+      const modal = document.getElementById('posterModal');
+      const modalImage = document.getElementById('poster-modal-image');
+      const modalTitle = document.getElementById('poster-modal-title');
 
-          window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-              header.classList.add('scrolled');
-            } else {
-              header.classList.remove('scrolled');
-            }
-          });
+      modalImage.src = imageSrc;
+      modalTitle.textContent = title;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
 
-          // Mobile Menu Toggle logic
-          const menuToggle = document.getElementById('menuToggle');
-          const navbar = document.getElementById('navbar');
+    function closePosterModal() {
+      const modal = document.getElementById('posterModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
 
-          menuToggle.addEventListener('click', () => {
-            navbar.classList.toggle('active');
-            menuToggle.innerHTML = navbar.classList.contains('active') ? '✕' : '☰';
-          });
+    // Close poster modal on ESC key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closePosterModal();
+      }
+    });
 
-          // Close mobile menu when clicking a link
-          document.querySelectorAll('#navbar a').forEach(link => {
-            link.addEventListener('click', () => {
-              navbar.classList.remove('active');
-              menuToggle.innerHTML = '☰';
-            });
-          });
+    // Auto-show login modal if there's an error or show_login flag
+    @if(session('error') || session('show_login'))
+      document.addEventListener('DOMContentLoaded', function () {
+        showLoginModal();
+      });
+    @endif
 
-          // Close mobile menu when clicking outside
-          document.addEventListener('click', (e) => {
-            if (!navbar.contains(e.target) && !menuToggle.contains(e.target) && navbar.classList.contains('active')) {
-              navbar.classList.remove('active');
-              menuToggle.innerHTML = '☰';
-            }
-          });
-        </script>
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile Menu Toggle logic
+    const menuToggle = document.getElementById('menuToggle');
+    const navbar = document.getElementById('navbar');
+
+    menuToggle.addEventListener('click', () => {
+      navbar.classList.toggle('active');
+      menuToggle.innerHTML = navbar.classList.contains('active') ? '✕' : '☰';
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('#navbar a').forEach(link => {
+      link.addEventListener('click', () => {
+        navbar.classList.remove('active');
+        menuToggle.innerHTML = '☰';
+      });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navbar.contains(e.target) && !menuToggle.contains(e.target) && navbar.classList.contains('active')) {
+        navbar.classList.remove('active');
+        menuToggle.innerHTML = '☰';
+      }
+    });
+  </script>
 </body>
 
 </html>

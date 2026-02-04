@@ -77,6 +77,8 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
+            max-width: 350px;
+            margin: 0 auto;
         }
 
         .poster-card:hover {
@@ -84,14 +86,25 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
-        .poster-card img {
+        .poster-card .poster-image-container {
             width: 100%;
-            height: 300px;
-            object-fit: cover;
+            height: 400px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .poster-card img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
 
         .poster-card-body {
             padding: 20px;
+            text-align: center;
         }
 
         .poster-card h3 {
@@ -104,6 +117,8 @@
             font-size: 14px;
             color: #666;
             line-height: 1.6;
+            word-break: break-word;
+            overflow-wrap: break-word;
         }
 
         .poster-category {
@@ -154,11 +169,13 @@
                     <div class="poster-card"
                         onclick="openLightbox('{{ asset('storage/' . $poster->image) }}', '{{ $poster->title }}')"
                         style="cursor: pointer;">
-                        <img src="{{ asset('storage/' . $poster->image) }}" alt="{{ $poster->title }}">
+                        <div class="poster-image-container">
+                            <img src="{{ asset('storage/' . $poster->image) }}" alt="{{ $poster->title }}">
+                        </div>
                         <div class="poster-card-body">
                             <h3>{{ $poster->title }}</h3>
                             @if($poster->description)
-                                <p>{{ $poster->description }}</p>
+                                <p>{{ Str::limit($poster->description, 100) }}</p>
                             @endif
                             @if($poster->category)
                                 <span class="poster-category">{{ $poster->category }}</span>

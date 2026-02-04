@@ -43,6 +43,8 @@ class PosterResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('Gambar Poster')
                             ->image()
+                            ->disk('public')
+                            ->visibility('public')
                             ->directory('posters')
                             ->maxSize(102400)
                             ->deletable()
@@ -64,6 +66,7 @@ class PosterResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label('Gambar')
+                    ->disk('public')
                     ->size(100),
 
                 Tables\Columns\TextColumn::make('title')
