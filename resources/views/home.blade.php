@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>taman belajar sedjati - Home</title>
+  <title>Taman Belajar Sedjati - Beranda</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
@@ -1061,16 +1061,16 @@
         <img src="{{ asset('images/logo/logo.png') }}" alt="Logo" style="width: 100%; height: auto;">
       </div>
       <div>
-        <div class="logo-text">Taman Belajar Sedjati Games⭐</div>
+        <div class="logo-text">Taman Belajar Sedjati Game⭐</div>
         <div class="subtitle">Belajar Sambil Bermain</div>
       </div>
     </div>
 
     <nav id="navbar">
       <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#games">Games</a></li>
-        <li><a href="#parents">For Parents</a></li>
+        <li><a href="#home">Beranda</a></li>
+        <li><a href="#games">Game</a></li>
+        <li><a href="#parents">Untuk Orang Tua</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle nav-login-btn" href="#" id="navbarDropdown" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
@@ -1080,12 +1080,12 @@
             <li>
               <a class="dropdown-item custom-dropdown-item student" href="javascript:void(0)"
                 onclick="showLoginModal()">
-                <span class="dropdown-icon">🎓</span> Login Siswa
+                <span class="dropdown-icon">🎓</span> Masuk Siswa
               </a>
             </li>
             <li>
               <a class="dropdown-item custom-dropdown-item teacher" href="{{ route('teacher.login') }}">
-                <span class="dropdown-icon">👨‍🏫</span> Login Guru
+                <span class="dropdown-icon">👨‍🏫</span> Masuk Guru
               </a>
             </li>
             <li>
@@ -1093,7 +1093,7 @@
             </li>
             <li>
               <a class="dropdown-item custom-dropdown-item parent" href="{{ route('parent.login') }}">
-                <span class="dropdown-icon">👨‍👩‍👧</span> Login Orang Tua
+                <span class="dropdown-icon">👨‍👩‍👧</span> Masuk Orang Tua
               </a>
             </li>
           </ul>
@@ -1101,7 +1101,7 @@
       </ul>
     </nav>
 
-    <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Navigation">
+    <button class="mobile-menu-toggle" id="menuToggle" aria-label="Buka Navigasi">
       ☰
     </button>
   </header>
@@ -1300,7 +1300,7 @@
               pelajari!</li>
           </ul>
 
-          <button class="btn-parents" onclick="showParentLoginModal()">Lihat Dashboard Orang Tua</button>
+          <button class="btn-parents" onclick="showParentLoginModal()">Lihat Dasbor Orang Tua</button>
         </div>
       </div>
     </section>
@@ -1372,7 +1372,7 @@
           style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: none; padding: 2rem; border-radius: 30px 30px 0 0;">
           <h5 class="modal-title"
             style="color: white; font-size: 2rem; font-weight: 700; width: 100%; text-align: center;">
-            👨‍👩‍👧 Login Orang Tua
+            👨‍👩‍👧 Masuk Orang Tua
           </h5>
         </div>
         <div class="modal-body" style="padding: 2.5rem;">
@@ -1446,7 +1446,7 @@
             </div>
 
             <div>
-              <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Taman Belajar Sedjati Games</h3>
+              <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Taman Belajar Sedjati Game</h3>
               <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.8);">Belajar Sambil
                 Bermain</p>
             </div>
@@ -1470,7 +1470,7 @@
             <li style="margin-bottom: 12px;">
               <a href="#games"
                 style="color: rgba(255,255,255,0.9); text-decoration: none; display: inline-block; transition: all 0.3s;">
-                Permainan
+                Game
               </a>
             </li>
             <li style="margin-bottom: 12px;">
@@ -1490,24 +1490,24 @@
 
         <!-- Login Links -->
         <div>
-          <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Login</h4>
+          <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Masuk</h4>
           <ul style="list-style: none; padding: 0; margin: 0;">
             <li style="margin-bottom: 12px;">
               <a href="javascript:void(0)" onclick="showLoginModal()"
                 style="color: rgba(255,255,255,0.9); text-decoration: none; display: inline-block; transition: all 0.3s;">
-                Login Siswa
+                Masuk Siswa
               </a>
             </li>
             <li style="margin-bottom: 12px;">
               <a href="{{ route('teacher.login') }}"
                 style="color: rgba(255,255,255,0.9); text-decoration: none; display: inline-block; transition: all 0.3s;">
-                Login Guru
+                Masuk Guru
               </a>
             </li>
             <li style="margin-bottom: 12px;">
               <a href="{{ route('parent.login') }}"
                 style="color: rgba(255,255,255,0.9); text-decoration: none; display: inline-block; transition: all 0.3s;">
-                Login Orang Tua
+                Masuk Orang Tua
               </a>
             </li>
             <li style="margin-bottom: 12px;">
@@ -1539,7 +1539,7 @@
       <!-- Footer Bottom -->
       <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 30px; text-align: center;">
         <p style="margin: 0 0 15px 0; font-size: 0.95rem;">
-          © 2026 Taman Belajar Sedjati Games • Dikembangkan oleh <span
+          © 2026 Taman Belajar Sedjati Game • Dikembangkan oleh <span
             style="color: #FFD700; font-weight: bold;">Sedjati Flora Game</span>
         </p>
         <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.7);">

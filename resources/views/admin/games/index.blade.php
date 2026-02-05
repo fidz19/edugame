@@ -39,8 +39,8 @@
     <div class="navbar">
         <h1>🎮 Kelola Game</h1>
         <div>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
-            <a href="{{ route('admin.logout') }}">Logout</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
+            <a href="{{ route('admin.logout') }}">Keluar</a>
         </div>
     </div>
 
@@ -80,11 +80,11 @@
                             </p>
                             @if($game->custom_template)
                                 <div style="color: #999; font-size: 12px; margin-bottom: 15px;">
-                                    🎨 Custom Template Game
+                                    🎨 Template Game Kustom
                                 </div>
                             @endif
                             <div class="game-actions">
-                                <a href="{{ route('admin.games.edit', $game->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{{ route('admin.games.edit', $game->id) }}" class="btn btn-warning btn-sm">Ubah</a>
                                 <form action="{{ route('admin.games.delete', $game->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus game ini?')">
                                     @csrf
                                     @method('DELETE')

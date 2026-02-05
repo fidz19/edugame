@@ -28,7 +28,7 @@
         <h1>➕ Tambah Anak</h1>
         <div>
             <a href="{{ route('admin.students') }}">Kembali</a>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 

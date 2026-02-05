@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Games - Teacher Portal</title>
+    <title>Game Saya - Portal Guru</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -153,6 +153,30 @@
         .user-email {
             font-size: 0.75rem;
             color: #64748b;
+        }
+
+        .btn-logout {
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #fecaca;
+            color: #b91c1c;
         }
 
         /* Main Content */
@@ -621,26 +645,26 @@
             <div class="brand-icon">📚</div>
             <div class="brand-text">
                 <div class="brand-name">EduPlay</div>
-                <div class="brand-subtitle">Teacher Portal</div>
+                <div class="brand-subtitle">Portal Guru</div>
             </div>
         </div>
 
         <nav class="sidebar-nav">
             <a href="{{ route('teacher.dashboard') }}" class="nav-item">
                 <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
+                <span>Dasbor</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ route('teacher.classes') }}" class="nav-item">
                 <span class="nav-icon">👥</span>
-                <span>Classes</span>
+                <span>Kelas</span>
             </a>
             <a href="{{ route('teacher.games') }}" class="nav-item active">
                 <span class="nav-icon">🎮</span>
-                <span>Games</span>
+                <span>Game</span>
             </a>
             <a href="{{ route('teacher.schedules') }}" class="nav-item">
                 <span class="nav-icon">📈</span>
-                <span>Results</span>
+                <span>Jadwal</span>
             </a>
         </nav>
 
@@ -649,9 +673,12 @@
                 <div class="user-avatar">{{ substr($teacher->name, 0, 1) }}</div>
                 <div class="user-info">
                     <div class="user-name">{{ $teacher->name }}</div>
-                    <div class="user-email">{{ $teacher->email ?? 'teacher@school.edu' }}</div>
+                    <div class="user-email">{{ $teacher->email ?? 'guru@sekolah.edu' }}</div>
                 </div>
             </div>
+            <a href="{{ route('teacher.logout') }}" class="btn-logout">
+                🚪 Keluar
+            </a>
         </div>
     </aside>
 
@@ -661,11 +688,9 @@
         <div class="header">
             <div class="search-box">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search your games...">
+                <input type="text" id="searchInput" placeholder="Cari game Anda...">
             </div>
             <div class="header-actions">
-                <button class="header-btn">🔔</button>
-                <button class="header-btn">⚙️</button>
             </div>
         </div>
 
@@ -689,23 +714,42 @@
         <!-- Page Title -->
         <div class="page-title-section">
             <div>
-                <h1 class="page-title">My Games</h1>
-                <p class="page-subtitle">You have {{ $games->count() }}
-                    {{ $games->count() == 1 ? 'game' : 'active games' }} available.
-                </p>
+                @if(isset($filterClass) && $filterClass)
+                    <h1 class="page-title">Game Saya - Kelas {{ $filterClass }}</h1>
+                    <p class="page-subtitle">
+                        Anda memiliki {{ $games->count() }} game tersedia untuk Kelas {{ $filterClass }}.
+                        <a href="{{ route('teacher.games') }}"
+                            style="color: #4B8BF4; text-decoration: none; font-weight: 600;">← Lihat Semua Game</a>
+                    </p>
+                @else
+                    <h1 class="page-title">Game Saya</h1>
+                    <p class="page-subtitle">Anda memiliki {{ $games->count() }} game tersedia.</p>
+                @endif
             </div>
             <a href="{{ route('teacher.games.create') }}" class="btn-create-game">
                 <span>➕</span>
-                Create New Game
+                Buat Game Baru
             </a>
         </div>
 
+        <!-- Class Filter Info -->
+        @if(isset($filterClass) && $filterClass)
+            <div class="alert alert-info d-flex align-items-center justify-content-between mb-4"
+                style="background: #EBF3FF; border: 1px solid #4B8BF4; border-radius: 12px; padding: 1rem;">
+                <div>
+                    <strong>🎯 Filter Aktif:</strong> Menampilkan game untuk <strong>Kelas {{ $filterClass }}</strong>
+                </div>
+                <a href="{{ route('teacher.games') }}" class="btn btn-sm btn-outline-primary" style="border-radius: 6px;">✕
+                    Hapus Filter</a>
+            </div>
+        @endif
+
         <!-- Tabs -->
         <div class="tabs-container">
-            <a href="#" class="tab-item active" data-filter="all">All Games</a>
-            <a href="#" class="tab-item" data-filter="published">Published</a>
-            <a href="#" class="tab-item" data-filter="draft">Drafts</a>
-            <a href="#" class="tab-item" data-filter="shared">Shared with Me</a>
+            <a href="{{ route('teacher.games') }}" class="tab-item active" data-filter="all">Semua Game</a>
+            <a href="#" class="tab-item" data-filter="published">Dipublikasikan</a>
+            <a href="#" class="tab-item" data-filter="draft">Draf</a>
+            <a href="#" class="tab-item" data-filter="shared">Dibagikan ke Saya</a>
         </div>
 
         <!-- Games Grid -->
@@ -732,18 +776,18 @@
                                 <div class="game-thumbnail-text">{{ strtoupper($game->template->name ?? 'GAME') }}</div>
                             </div>
                             <span class="game-badge {{ $game->is_active ? 'badge-published' : 'badge-draft' }}">
-                                {{ $game->is_active ? 'Published' : 'Draft' }}
+                                {{ $game->is_active ? 'Dipublikasikan' : 'Draf' }}
                             </span>
                         </div>
                         <div class="game-content">
                             <div class="game-category">
-                                GRADE {{ rand(1, 6) }} - {{ strtoupper($game->template->name ?? 'GENERAL') }}
+                                KELAS {{ rand(1, 6) }} - {{ strtoupper($game->template->name ?? 'UMUM') }}
                             </div>
                             <h3 class="game-title">{{ $game->title }}</h3>
                             <div class="game-stats">
                                 <div class="game-stat">
                                     <span>📝</span>
-                                    {{ $game->questions->count() }} questions
+                                    {{ $game->questions->count() }} soal
                                 </div>
                                 <div class="game-stat">
                                     <span>📅</span>
@@ -752,10 +796,10 @@
                             </div>
                             <div class="game-actions">
                                 <a href="{{ route('teacher.games.edit', $game->id) }}" class="btn-action btn-edit">
-                                    <span>✏️</span> Edit
+                                    <span>✏️</span> Ubah
                                 </a>
                                 <button class="btn-action btn-results">
-                                    <span>📊</span> Results
+                                    <span>📊</span> Hasil
                                 </button>
                             </div>
                         </div>
@@ -766,17 +810,17 @@
             <!-- New Activity Card -->
             <a href="{{ route('teacher.games.create') }}" class="new-activity-card">
                 <div class="new-activity-icon">➕</div>
-                <div class="new-activity-title">New Learning Activity</div>
-                <div class="new-activity-subtitle">Design a new interactive challenge</div>
+                <div class="new-activity-title">Aktivitas Belajar Baru</div>
+                <div class="new-activity-subtitle">Rancang tantangan interaktif baru</div>
             </a>
         </div>
 
         @if($games->count() == 0)
             <div class="empty-state mt-4">
                 <div class="empty-state-icon">🎮</div>
-                <p>You haven't created any games yet.<br>Start by creating your first game!</p>
+                <p>Anda belum membuat game apa pun.<br>Mulailah dengan membuat game pertama Anda!</p>
                 <a href="{{ route('teacher.games.create') }}" class="btn-create-game">
-                    ➕ Create First Game
+                    ➕ Buat Game Pertama
                 </a>
             </div>
         @endif
@@ -828,14 +872,14 @@
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
                 Swal.fire({
-                    title: '🗑️ Delete Game?',
-                    html: '<p style="font-size: 1.1rem; color: #64748b;">This game and all its questions will be permanently deleted!</p>',
+                    title: '🗑️ Hapus Game?',
+                    html: '<p style="font-size: 1.1rem; color: #64748b;">Game ini beserta semua soalnya akan dihapus permanen!</p>',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#ef4444',
                     cancelButtonColor: '#94a3b8',
-                    confirmButtonText: '✓ Yes, Delete!',
-                    cancelButtonText: '✗ Cancel',
+                    confirmButtonText: '✓ Ya, Hapus!',
+                    cancelButtonText: '✗ Batal',
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -849,7 +893,7 @@
         @if(session('success'))
             Swal.fire({
                 icon: 'success',
-                title: '✅ Success!',
+                title: '✅ Berhasil!',
                 text: '{{ session('success') }}',
                 confirmButtonColor: '#22c55e',
                 timer: 3000,
@@ -860,7 +904,7 @@
         @if(session('error'))
             Swal.fire({
                 icon: 'error',
-                title: '❌ Error!',
+                title: '❌ Gagal!',
                 text: '{{ session('error') }}',
                 confirmButtonColor: '#ef4444'
             });

@@ -55,6 +55,7 @@ Route::post('/teacher/login', [App\Http\Controllers\TeacherController::class, 'l
 
 Route::middleware(['CheckTeacherLogin'])->group(function () {
     Route::get('/teacher/dashboard', [App\Http\Controllers\TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/teacher/classes', [App\Http\Controllers\TeacherController::class, 'classes'])->name('teacher.classes');
     Route::get('/teacher/students/{class}', [App\Http\Controllers\TeacherController::class, 'getStudentsByClass'])->name('teacher.students.class');
     Route::get('/teacher/logout', [App\Http\Controllers\TeacherController::class, 'logout'])->name('teacher.logout');
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Game Edukasi</title>
+    <title>Masuk Admin - Game Edukasi</title>
     <style>
         * {
             margin: 0;
@@ -126,7 +126,7 @@
 <body>
     <div class="login-container">
         <div class="login-header">
-            <h1>🔐 Admin Panel</h1>
+            <h1>🔐 Panel Admin</h1>
             <p>Platform Game Edukasi Anak</p>
         </div>
 
@@ -150,11 +150,11 @@
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Kata Sandi</label>
                 <input type="password" id="password" name="password" required>
             </div>
 
-            <button type="submit" class="btn-login">Login</button>
+            <button type="submit" class="btn-login">Masuk</button>
         </form>
 
         <div class="back-link">

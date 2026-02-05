@@ -367,16 +367,16 @@
             </div>
 
             <div class="form-group">
-                <label for="password">🔑 Password</label>
+                <label for="password">🔑 Kata Sandi</label>
                 <input type="password" id="password" name="password" required placeholder="Minimal 8 karakter">
-                <small>Password minimal 8 karakter</small>
+                <small>Kata sandi minimal 8 karakter</small>
                 @error('password')
                     <span class="error-text">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="password_confirmation">🔒 Konfirmasi Password</label>
+                <label for="password_confirmation">🔒 Konfirmasi Kata Sandi</label>
                 <input type="password" id="password_confirmation" name="password_confirmation" required
                     placeholder="Ketik ulang password">
             </div>
@@ -398,7 +398,7 @@
 
         <div class="login-link">
             <p>Sudah punya akun?
-                <a href="{{ route('parent.login') }}">Login di sini</a>
+                <a href="{{ route('parent.login') }}">Masuk di sini</a>
             </p>
         </div>
 

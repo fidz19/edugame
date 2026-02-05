@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Anak - Admin</title>
+    <title>Ubah Anak - Admin</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
@@ -25,10 +25,10 @@
 </head>
 <body>
     <div class="navbar">
-        <h1>✏️ Edit Anak</h1>
+        <h1>✏️ Ubah Anak</h1>
         <div>
             <a href="{{ route('admin.students') }}">Kembali</a>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">💾 Update</button>
+                    <button type="submit" class="btn btn-primary">💾 Simpan Perubahan</button>
                     <a href="{{ route('admin.students') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>

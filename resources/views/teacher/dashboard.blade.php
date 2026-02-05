@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Teacher Portal</title>
+    <title>Dasbor - Portal Guru</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -152,6 +152,30 @@
         .user-email {
             font-size: 0.75rem;
             color: #64748b;
+        }
+
+        .btn-logout {
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #fecaca;
+            color: #b91c1c;
         }
 
         /* Main Content */
@@ -548,26 +572,26 @@
             <div class="brand-icon">📚</div>
             <div class="brand-text">
                 <div class="brand-name">EduPlay</div>
-                <div class="brand-subtitle">Teacher Portal</div>
+                <div class="brand-subtitle">Portal Guru</div>
             </div>
         </div>
 
         <nav class="sidebar-nav">
             <a href="{{ route('teacher.dashboard') }}" class="nav-item active">
                 <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
+                <span>Dasbor</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ route('teacher.classes') }}" class="nav-item">
                 <span class="nav-icon">👥</span>
-                <span>Classes</span>
+                <span>Kelas</span>
             </a>
             <a href="{{ route('teacher.games') }}" class="nav-item">
                 <span class="nav-icon">🎮</span>
-                <span>Games</span>
+                <span>Game</span>
             </a>
             <a href="{{ route('teacher.schedules') }}" class="nav-item">
                 <span class="nav-icon">📈</span>
-                <span>Results</span>
+                <span>Jadwal</span>
             </a>
         </nav>
 
@@ -576,9 +600,12 @@
                 <div class="user-avatar">{{ substr($teacher->name, 0, 1) }}</div>
                 <div class="user-info">
                     <div class="user-name">{{ $teacher->name }}</div>
-                    <div class="user-email">{{ $teacher->email ?? 'teacher@school.edu' }}</div>
+                    <div class="user-email">{{ $teacher->email ?? 'guru@sekolah.edu' }}</div>
                 </div>
             </div>
+            <a href="{{ route('teacher.logout') }}" class="btn-logout">
+                🚪 Keluar
+            </a>
         </div>
     </aside>
 
@@ -588,18 +615,16 @@
         <div class="header">
             <div class="search-box">
                 <span class="search-icon">🔍</span>
-                <input type="text" placeholder="Search students...">
+                <input type="text" placeholder="Cari siswa...">
             </div>
             <div class="header-actions">
-                <button class="header-btn">🔔</button>
-                <button class="header-btn">⚙️</button>
             </div>
         </div>
 
         <!-- Welcome Card -->
         <div class="welcome-card">
-            <h1>Welcome back, {{ $teacher->name }}! 👋</h1>
-            <p>{{ $teacher->subject ? 'Teacher of ' . $teacher->subject : 'Teacher' }} | Monitor your students progress
+            <h1>Selamat datang kembali, {{ $teacher->name }}! 👋</h1>
+            <p>{{ $teacher->subject ? 'Guru ' . $teacher->subject : 'Guru' }} | Pantau perkembangan siswa Anda
                 here</p>
         </div>
 
@@ -608,19 +633,19 @@
             <div class="stat-card students">
                 <div class="stat-icon">👥</div>
                 <div class="stat-value">{{ $totalStudents }}</div>
-                <div class="stat-label">Total Students</div>
+                <div class="stat-label">Total Siswa</div>
             </div>
 
             <div class="stat-card games">
                 <div class="stat-icon">🎮</div>
                 <div class="stat-value">{{ $totalGamesPlayed }}</div>
-                <div class="stat-label">Games Played</div>
+                <div class="stat-label">Game Dimainkan</div>
             </div>
 
             <div class="stat-card score">
                 <div class="stat-icon">⭐</div>
                 <div class="stat-value">{{ $averageScore }}</div>
-                <div class="stat-label">Average Score</div>
+                <div class="stat-label">Rata-rata Skor</div>
             </div>
 
             <div class="stat-card accuracy">
@@ -633,16 +658,16 @@
         <!-- Class Distribution -->
         <div class="section-card">
             <div class="section-title">
-                📊 Student Distribution by Class
+                📊 Distribusi Siswa per Kelas
             </div>
             <div class="filter-buttons">
                 <a href="{{ route('teacher.dashboard') }}" class="btn-filter {{ !$filterClass ? 'active' : '' }}">
-                    All Classes ({{ $totalStudents }})
+                    Semua Kelas ({{ $totalStudents }})
                 </a>
                 @for ($i = 1; $i <= 6; $i++)
                     <a href="{{ route('teacher.dashboard', ['class' => $i]) }}"
                         class="btn-filter {{ $filterClass == $i ? 'active' : '' }}">
-                        Grade {{ $i }} ({{ $classStats[$i] ?? 0 }})
+                        Kelas {{ $i }} ({{ $classStats[$i] ?? 0 }})
                     </a>
                 @endfor
             </div>
@@ -652,7 +677,7 @@
         @if(count($topPerformers) > 0)
             <div class="section-card">
                 <div class="section-title">
-                    🏆 Top 5 Best Students
+                    🏆 5 Siswa Terbaik
                 </div>
                 @foreach($topPerformers as $index => $performer)
                     <div class="top-performer-item">
@@ -660,7 +685,7 @@
                         <div class="performer-info">
                             <div class="performer-name">{{ $performer['student']->nama_anak }}</div>
                             <div class="performer-stats">
-                                Grade {{ $performer['student']->kelas }} •
+                                Kelas {{ $performer['student']->kelas }} •
                                 {{ $performer['games_played'] }} games played
                             </div>
                         </div>
@@ -673,7 +698,7 @@
         <!-- Students List -->
         <div class="section-card">
             <div class="section-title">
-                📋 Student List {{ $filterClass ? '(Grade ' . $filterClass . ')' : '' }}
+                📋 Daftar Siswa {{ $filterClass ? '(Kelas ' . $filterClass . ')' : '' }}
             </div>
 
             @if($students->count() > 0)
@@ -682,10 +707,10 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Student Name</th>
-                                <th>Grade</th>
-                                <th>Games Played</th>
-                                <th>Avg Score</th>
+                                <th>Nama Siswa</th>
+                                <th>Kelas</th>
+                                <th>Game Dimainkan</th>
+                                <th>Rata-rata Skor</th>
                                 <th>Accuracy</th>
                             </tr>
                         </thead>
@@ -704,7 +729,7 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td><strong>{{ $student->nama_anak }}</strong></td>
-                                    <td><span class="badge-class">Grade {{ $student->kelas }}</span></td>
+                                    <td><span class="badge-class">Kelas {{ $student->kelas }}</span></td>
                                     <td>{{ $gamesPlayed }} games</td>
                                     <td><strong>{{ $avgScore }}</strong></td>
                                     <td>
@@ -721,7 +746,7 @@
             @else
                 <div class="empty-state">
                     <div class="empty-state-icon">📚</div>
-                    <p>No students found {{ $filterClass ? 'in grade ' . $filterClass : '' }}</p>
+                    <p>Tidak ada siswa {{ $filterClass ? 'di kelas ' . $filterClass : '' }}</p>
                 </div>
             @endif
         </div>
@@ -736,9 +761,9 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Student</th>
+                                <th>Siswa</th>
                                 <th>Game</th>
-                                <th>Score</th>
+                                <th>Skor</th>
                                 <th>Accuracy</th>
                                 <th>Time</th>
                             </tr>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Soal - {{ $question->game->title }}</title>
+    <title>Ubah Soal - {{ $question->game->title }}</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
@@ -29,7 +29,7 @@
 </head>
 <body>
     <div class="navbar">
-        <h1>✏️ Edit Soal</h1>
+        <h1>✏️ Ubah Soal</h1>
         <div>
             <a href="{{ route('admin.questions', $question->game_id) }}">Kembali</a>
             <a href="{{ route('admin.games') }}">Daftar Game</a>
@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="image">Upload Gambar (Opsional)</label>
+                    <label for="image">Unggah Gambar (Opsional)</label>
                     @if($question->image)
                         <div style="margin-bottom: 10px;">
                             <img src="{{ asset($question->image) }}" style="max-width: 300px; border-radius: 10px;">
@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">💾 Update Soal</button>
+                    <button type="submit" class="btn btn-primary">💾 Simpan Perubahan Soal</button>
                     <a href="{{ route('admin.questions', $question->game_id) }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>

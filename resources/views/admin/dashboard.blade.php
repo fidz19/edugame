@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Game Edukasi</title>
+    <title>Dasbor Admin - Game Edukasi</title>
     <style>
         * {
             margin: 0;
@@ -144,10 +144,10 @@
 </head>
 <body>
     <div class="navbar">
-        <h1>🎮 Admin Panel - Game Edukasi</h1>
+        <h1>🎮 Panel Admin - Game Edukasi</h1>
         <div class="user-info">
             <span>Halo, {{ session('admin_name') }}!</span>
-            <a href="{{ route('admin.logout') }}" class="btn btn-light">Logout</a>
+            <a href="{{ route('admin.logout') }}" class="btn btn-light">Keluar</a>
         </div>
     </div>
 
@@ -203,7 +203,7 @@
             <div class="menu-card">
                 <div class="icon">📸</div>
                 <h2>Kelola Poster</h2>
-                <p>Upload dan kelola poster edukatif</p>
+                <p>Unggah dan kelola poster edukatif</p>
                 <a href="{{ route('admin.posters') }}" class="btn btn-primary">Kelola Poster</a>
             </div>
         </div>

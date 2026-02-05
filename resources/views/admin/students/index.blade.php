@@ -31,7 +31,7 @@
     <div class="navbar">
         <h1>👶 Kelola Anak</h1>
         <div>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 
@@ -66,7 +66,7 @@
                                 <td>{{ $student->orangtua ? $student->orangtua->parent_name : '-' }}</td>
                                 <td>
                                     <div class="actions">
-                                        <a href="{{ route('admin.students.edit', $student->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{ route('admin.students.edit', $student->id) }}" class="btn btn-warning btn-sm">Ubah</a>
                                         <form action="{{ route('admin.students.delete', $student->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus data anak ini?')">
                                             @csrf
                                             @method('DELETE')

@@ -31,7 +31,7 @@
         <h1>➕ Tambah Game Baru</h1>
         <div>
             <a href="{{ route('admin.games') }}">Kembali</a>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
 
                 <hr style="margin: 30px 0; border: none; border-top: 2px solid #e0e0e0;">
                 
-                <h3 style="color: #667eea; margin-bottom: 15px;">🎨 Custom Game Template (Opsional)</h3>
+                <h3 style="color: #667eea; margin-bottom: 15px;">🎨 Template Game Kustom (Opsional)</h3>
                 <p style="color: #666; margin-bottom: 20px; font-size: 14px;">
                     Masukkan kode HTML lengkap dengan CSS dan JavaScript untuk custom game template. Kode ini akan dirender sebagai halaman game.
                 </p>
@@ -99,10 +99,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="game_images">📸 Upload Gambar Game (Multiple)</label>
+                    <label for="game_images">📸 Unggah Gambar Game (Beberapa)</label>
                     <input type="file" id="game_images" name="game_images[]" accept="image/*" multiple>
                     <small style="color: #666; display: block; margin-top: 5px;">
-                        💡 Upload beberapa gambar sekaligus untuk dipakai di game. Nanti bisa diakses dengan:<br>
+                        💡 Unggah beberapa gambar sekaligus untuk dipakai di game. Nanti bisa diakses dengan:<br>
                         <code>&lt;img src="/images/game_assets/GAME_ID/namafile.jpg"&gt;</code>
                     </small>
                 </div>

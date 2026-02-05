@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Game - Teacher Portal</title>
+    <title>Buat Game Baru - Portal Guru</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -144,6 +144,30 @@
         .user-email {
             font-size: 0.75rem;
             color: #64748b;
+        }
+
+        .btn-logout {
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #fecaca;
+            color: #b91c1c;
         }
 
         /* Main Content */
@@ -415,26 +439,26 @@
             <div class="brand-icon">📚</div>
             <div class="brand-text">
                 <div class="brand-name">EduPlay</div>
-                <div class="brand-subtitle">Teacher Portal</div>
+                <div class="brand-subtitle">Portal Guru</div>
             </div>
         </div>
 
         <nav class="sidebar-nav">
             <a href="{{ route('teacher.dashboard') }}" class="nav-item">
                 <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
+                <span>Dasbor</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ route('teacher.classes') }}" class="nav-item">
                 <span class="nav-icon">👥</span>
-                <span>Classes</span>
+                <span>Kelas</span>
             </a>
             <a href="{{ route('teacher.games') }}" class="nav-item active">
                 <span class="nav-icon">🎮</span>
-                <span>Games</span>
+                <span>Game</span>
             </a>
             <a href="{{ route('teacher.schedules') }}" class="nav-item">
                 <span class="nav-icon">📈</span>
-                <span>Results</span>
+                <span>Jadwal</span>
             </a>
         </nav>
 
@@ -443,9 +467,12 @@
                 <div class="user-avatar">{{ substr(session('teacher_name', 'T'), 0, 1) }}</div>
                 <div class="user-info">
                     <div class="user-name">{{ session('teacher_name') }}</div>
-                    <div class="user-email">teacher@school.edu</div>
+                    <div class="user-email">guru@sekolah.edu</div>
                 </div>
             </div>
+            <a href="{{ route('teacher.logout') }}" class="btn-logout">
+                🚪 Keluar
+            </a>
         </div>
     </aside>
 
@@ -453,16 +480,14 @@
     <main class="main-content">
         <div class="header">
             <a href="{{ route('teacher.games') }}" class="btn-back">
-                ← Back to Games
+                ← Kembali ke Game
             </a>
             <div class="header-actions">
-                <button class="header-btn">🔔</button>
-                <button class="header-btn">⚙️</button>
             </div>
         </div>
 
-        <h1 class="page-title">➕ Create New Game</h1>
-        <p class="page-subtitle">Select a template and create your own quiz game</p>
+        <h1 class="page-title">➕ Buat Game Baru</h1>
+        <p class="page-subtitle">Pilih template dan buat game kuis Anda sendiri</p>
 
         @if($errors->any())
             <div class="alert alert-danger">
@@ -481,7 +506,7 @@
 
                     <!-- Select Template -->
                     <div class="form-section">
-                        <h3 class="form-section-title">📋 Select Game Template</h3>
+                        <h3 class="form-section-title">📋 Pilih Template Game</h3>
                         <div class="template-grid">
                             @foreach($templates as $template)
                                 <div class="template-option">
@@ -502,60 +527,60 @@
 
                     <!-- Game Info -->
                     <div class="form-section">
-                        <h3 class="form-section-title">🎯 Game Information</h3>
+                        <h3 class="form-section-title">🎯 Informasi Game</h3>
 
                         <div class="mb-3">
-                            <label for="title" class="form-label">Game Title *</label>
+                            <label for="title" class="form-label">Judul Game *</label>
                             <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}"
-                                placeholder="Example: Math Quiz Grade 5" required>
+                                placeholder="Contoh: Kuis Matematika Kelas 5" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
+                            <label for="description" class="form-label">Deskripsi</label>
                             <textarea class="form-control" id="description" name="description" rows="3"
                                 placeholder="Brief description about this game...">{{ old('description') }}</textarea>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="category" class="form-label">Category</label>
+                                <label for="category" class="form-label">Kategori</label>
                                 <input type="text" class="form-control" id="category" name="category"
-                                    value="{{ old('category') }}" placeholder="Example: Math, Science, History" required>
+                                    value="{{ old('category') }}" placeholder="Contoh: Matematika, Sains, Sejarah" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="class" class="form-label">Select Grade</label>
+                                <label for="class" class="form-label">Pilih Kelas</label>
                                 <select class="form-select" id="class" name="class">
-                                    <option value="">All Grades</option>
+                                    <option value="">Semua Kelas</option>
                                     @for($i = 1; $i <= 6; $i++)
-                                        <option value="{{ $i }}" {{ old('class') == $i ? 'selected' : '' }}>Grade {{ $i }}
+                                        <option value="{{ $i }}" {{ old('class') == $i ? 'selected' : '' }}>Kelas {{ $i }}
                                         </option>
                                     @endfor
                                 </select>
-                                <small class="text-muted">Game will only appear for students in this grade.</small>
+                                <small class="text-muted">Game hanya akan muncul untuk siswa di kelas ini.</small>
                             </div>
                         </div>
                     </div>
 
                     <!-- Game Images Section -->
                     <div class="form-section">
-                        <h3 class="form-section-title">🖼️ Game Images (Optional)</h3>
+                        <h3 class="form-section-title">🖼️ Gambar Game (Opsional)</h3>
                         <div class="mb-3">
-                            <label for="game_images" class="form-label">Upload Images</label>
+                            <label for="game_images" class="form-label">Unggah Gambar</label>
                             <input type="file" class="form-control" id="game_images" name="game_images[]"
                                 accept="image/png,image/jpeg,image/jpg,image/webp" multiple>
-                            <small class="text-muted">Upload up to 5 images (PNG, JPG, WEBP). Max 2MB per file.</small>
+                            <small class="text-muted">Unggah maksimal 5 gambar (PNG, JPG, WEBP). Maks 2MB per file.</small>
                         </div>
                         <div id="image-preview" class="d-flex gap-2 flex-wrap mt-2"></div>
                     </div>
 
                     <button type="submit" class="btn-submit">
-                        🚀 Create Game & Add Questions
+                        🚀 Buat Game & Tambah Soal
                     </button>
                 </form>
             @else
                 <div class="empty-templates">
-                    <h3>⚠️ No Templates Available</h3>
-                    <p>Admin hasn't created any game templates yet. Please contact admin to create templates first.</p>
+                    <h3>⚠️ Tidak Ada Template Tersedia</h3>
+                    <p>Admin belum membuat template game. Silakan hubungi admin untuk membuat template terlebih dahulu.</p>
                 </div>
             @endif
         </div>

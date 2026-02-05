@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Orang Tua - Admin</title>
+    <title>Ubah Orang Tua - Admin</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
@@ -25,10 +25,10 @@
 </head>
 <body>
     <div class="navbar">
-        <h1>✏️ Edit Orang Tua</h1>
+        <h1>✏️ Ubah Orang Tua</h1>
         <div>
             <a href="{{ route('admin.parents') }}">Kembali</a>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 
@@ -49,13 +49,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password Baru (Kosongkan jika tidak ingin mengubah)</label>
+                    <label for="password">Kata Sandi Baru (Kosongkan jika tidak ingin mengubah)</label>
                     <input type="password" id="password" name="password" placeholder="Minimal 6 karakter">
                     <small style="color: #666; display: block; margin-top: 5px;">Isi hanya jika ingin mengganti password</small>
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">💾 Update</button>
+                    <button type="submit" class="btn btn-primary">💾 Simpan Perubahan</button>
                     <a href="{{ route('admin.parents') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>

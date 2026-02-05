@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Game - {{ $game->title }}</title>
+    <title>Ubah Game - {{ $game->title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -145,6 +145,30 @@
         .user-email {
             font-size: 0.75rem;
             color: #64748b;
+        }
+
+        .btn-logout {
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #fecaca;
+            color: #b91c1c;
         }
 
         /* Main Content */
@@ -442,26 +466,26 @@
             <div class="brand-icon">📚</div>
             <div class="brand-text">
                 <div class="brand-name">EduPlay</div>
-                <div class="brand-subtitle">Teacher Portal</div>
+                <div class="brand-subtitle">Portal Guru</div>
             </div>
         </div>
 
         <nav class="sidebar-nav">
             <a href="{{ route('teacher.dashboard') }}" class="nav-item">
                 <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
+                <span>Dasbor</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ route('teacher.classes') }}" class="nav-item">
                 <span class="nav-icon">👥</span>
-                <span>Classes</span>
+                <span>Kelas</span>
             </a>
             <a href="{{ route('teacher.games') }}" class="nav-item active">
                 <span class="nav-icon">🎮</span>
-                <span>Games</span>
+                <span>Game</span>
             </a>
             <a href="{{ route('teacher.schedules') }}" class="nav-item">
                 <span class="nav-icon">📈</span>
-                <span>Results</span>
+                <span>Jadwal</span>
             </a>
         </nav>
 
@@ -470,9 +494,12 @@
                 <div class="user-avatar">{{ substr(session('teacher_name', 'T'), 0, 1) }}</div>
                 <div class="user-info">
                     <div class="user-name">{{ session('teacher_name') }}</div>
-                    <div class="user-email">teacher@school.edu</div>
+                    <div class="user-email">guru@sekolah.edu</div>
                 </div>
             </div>
+            <a href="{{ route('teacher.logout') }}" class="btn-logout">
+                🚪 Keluar
+            </a>
         </div>
     </aside>
 
@@ -480,11 +507,9 @@
     <main class="main-content">
         <div class="header">
             <a href="{{ route('teacher.games') }}" class="btn-back">
-                ← Back to Games
+                ← Kembali ke Game
             </a>
             <div class="header-actions">
-                <button class="header-btn">🔔</button>
-                <button class="header-btn">⚙️</button>
             </div>
         </div>
 
@@ -513,7 +538,7 @@
 
         <!-- Game Info Section -->
         <div class="section-card">
-            <h2 class="section-title">🎯 Edit Game Information</h2>
+            <h2 class="section-title">🎯 Ubah Informasi Game</h2>
 
             @if($game->template)
                 <div class="template-badge">
@@ -523,15 +548,15 @@
 
             <div class="stats-row">
                 <div class="stat-mini">
-                    <div class="stat-mini-label">Total Questions</div>
+                    <div class="stat-mini-label">Total Soal</div>
                     <div class="stat-mini-value">{{ $game->questions->count() }}</div>
                 </div>
                 <div class="stat-mini">
                     <div class="stat-mini-label">Status</div>
-                    <div class="stat-mini-value">{{ $game->is_active ? '✅ Active' : '❌ Inactive' }}</div>
+                    <div class="stat-mini-value">{{ $game->is_active ? '✅ Aktif' : '❌ Tidak Aktif' }}</div>
                 </div>
                 <div class="stat-mini">
-                    <div class="stat-mini-label">Created</div>
+                    <div class="stat-mini-label">Dibuat</div>
                     <div class="stat-mini-value">{{ $game->created_at->format('d M Y') }}</div>
                 </div>
             </div>
@@ -542,24 +567,24 @@
 
                 <div class="row">
                     <div class="col-md-5 mb-3">
-                        <label for="title" class="form-label">Game Title *</label>
+                        <label for="title" class="form-label">Judul Game *</label>
                         <input type="text" class="form-control" id="title" name="title"
                             value="{{ old('title', $game->title) }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="category" class="form-label">Category *</label>
+                        <label for="category" class="form-label">Kategori *</label>
                         <input type="text" class="form-control" id="category" name="category"
-                            value="{{ old('category', $game->category) }}" placeholder="Example: Math, Science" required>
+                            value="{{ old('category', $game->category) }}" placeholder="Contoh: Matematika, Sains" required>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-5 mb-3">
-                        <label for="class" class="form-label">Grade</label>
+                        <label for="class" class="form-label">Kelas</label>
                         <select class="form-select" id="class" name="class">
-                            <option value="">All Grades</option>
+                            <option value="">Semua Kelas</option>
                             @for($i = 1; $i <= 6; $i++)
-                                <option value="{{ $i }}" {{ old('class', $game->class) == $i ? 'selected' : '' }}>Grade {{ $i }}</option>
+                                <option value="{{ $i }}" {{ old('class', $game->class) == $i ? 'selected' : '' }}>Kelas {{ $i }}</option>
                             @endfor
                         </select>
                     </div>
@@ -567,20 +592,20 @@
                         <label class="form-label">Status</label>
                         <div class="form-check mt-2">
                             <input type="checkbox" class="form-check-input" id="is_active" name="is_active" {{ $game->is_active ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_active">Game Active</label>
+                            <label class="form-check-label" for="is_active">Game Aktif</label>
                         </div>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
+                    <label for="description" class="form-label">Deskripsi</label>
                     <textarea class="form-control" id="description" name="description"
                         rows="3">{{ old('description', $game->description) }}</textarea>
                 </div>
 
                 <!-- Game Images Section -->
                 <div class="mb-3">
-                    <label class="form-label">📷 Game Images</label>
+                    <label class="form-label">📷 Gambar Game</label>
                     
                     @if($game->game_images)
                         @php
@@ -588,11 +613,11 @@
                         @endphp
                         @if(is_array($existingImages) && count($existingImages) > 0)
                             <div class="mb-3">
-                                <small class="text-muted d-block mb-2">Existing images:</small>
+                                <small class="text-muted d-block mb-2">Gambar yang ada:</small>
                                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                                     @foreach($existingImages as $image)
                                         <div style="position: relative;">
-                                            <img src="{{ asset('storage/' . $image) }}" alt="Game Image" 
+                                            <img src="{{ asset('storage/' . $image) }}" alt="Gambar Game" 
                                                 style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;">
                                         </div>
                                     @endforeach
@@ -603,25 +628,25 @@
 
                     <input class="form-control" type="file" id="game_images" name="game_images[]" 
                         accept="image/png,image/jpeg,image/jpg,image/webp" multiple>
-                    <small class="text-muted">Upload new images (PNG, JPG, WEBP). Max 5 images, max 2MB per file.</small>
+                    <small class="text-muted">Unggah gambar baru (PNG, JPG, WEBP). Maks 5 gambar, maks 2MB per file.</small>
                     
                     <!-- Preview Area -->
                     <div id="imagePreview" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
                 </div>
 
                 <button type="submit" class="btn-update">
-                    💾 Save Changes
+                    💾 Simpan Perubahan
                 </button>
             </form>
         </div>
 
         <!-- Questions Section -->
         <div class="section-card">
-            <h2 class="section-title">📝 Manage Questions</h2>
+            <h2 class="section-title">📝 Kelola Soal</h2>
 
             <!-- Add Question Form -->
             <div class="add-question-form mb-4">
-                <h4 class="add-question-title">➕ Add New Question</h4>
+                <h4 class="add-question-title">➕ Tambah Soal Baru</h4>
                 
                 @php
                     $templateType = $game->template->template_type ?? 'quiz';
@@ -635,24 +660,24 @@
                         <div class="mb-3">
                             <label for="question_text" class="form-label">
                                 @if(in_array($templateType, ['hangman', 'spell_word', 'word_search']))
-                                    Clue/Hint *
+                                    Petunjuk *
                                 @elseif($templateType == 'math_generator')
-                                    Math Problem *
+                                    Soal Matematika *
                                 @elseif($templateType == 'true_false')
-                                    True/False Statement *
+                                    Pernyataan Benar/Salah *
                                 @elseif($templateType == 'crossword')
-                                    Clue *
+                                    Petunjuk *
                                 @elseif($templateType == 'labeled_diagram')
-                                    Label Hint *
+                                    Petunjuk Label *
                                 @else
-                                    Question *
+                                    Soal *
                                 @endif
                             </label>
                             <textarea class="form-control" id="question_text" name="question_text" rows="2"
-                                placeholder="@if(in_array($templateType, ['hangman']))Example: A four-legged animal that eats grass...@elseif(in_array($templateType, ['spell_word']))Example: Spell the word for 'house'...@elseif(in_array($templateType, ['word_search']))Example: Find the word meaning 'school'...@elseif($templateType == 'math_generator')Example: 5 + 3 = ?@elseif($templateType == 'true_false')Enter a true or false statement...@else Enter your question...@endif" required></textarea>
+                                placeholder="@if(in_array($templateType, ['hangman']))Contoh: Hewan berkaki empat yang makan rumput...@elseif(in_array($templateType, ['spell_word']))Contoh: Eja kata untuk 'rumah'...@elseif(in_array($templateType, ['word_search']))Contoh: Temukan kata yang berarti 'sekolah'...@elseif($templateType == 'math_generator')Contoh: 5 + 3 = ?@elseif($templateType == 'true_false')Masukkan pernyataan benar atau salah...@else Masukkan pertanyaan Anda...@endif" required></textarea>
                         </div>
                     @else
-                        <input type="hidden" name="question_text" value="Play the game below">
+                        <input type="hidden" name="question_text" value="Mainkan game di bawah">
                     @endif
 
                     @php
@@ -667,57 +692,57 @@
                         <div class="mb-3">
                             <label for="image" class="form-label">
                                 @if($templateType === 'labeled_diagram')
-                                    Diagram Image *
+                                    Gambar Diagram *
                                 @else
-                                    Question Image *
+                                    Gambar Soal *
                                 @endif
                             </label>
                             <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
-                            <small class="text-muted">Image format (JPG/PNG/WebP), max 2MB.</small>
+                            <small class="text-muted">Format gambar (JPG/PNG/WebP), maks 2MB.</small>
                         </div>
                     @endif
 
                     @if($templateType == 'true_false')
                         <div class="mb-3">
-                            <label class="form-label">Correct Answer *</label>
+                            <label class="form-label">Jawaban Benar *</label>
                             <div class="d-flex gap-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="correct_answer" id="answer_true" value="true" required>
-                                    <label class="form-check-label" for="answer_true">✅ True</label>
+                                    <label class="form-check-label" for="answer_true">✅ Benar</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="correct_answer" id="answer_false" value="false" required>
-                                    <label class="form-check-label" for="answer_false">❌ False</label>
+                                    <label class="form-check-label" for="answer_false">❌ Salah</label>
                                 </div>
                             </div>
                         </div>
 
                     @elseif($templateType === 'crossword')
                         <div class="mb-3">
-                            <label for="correct_answer" class="form-label">Answer (Word) *</label>
+                            <label for="correct_answer" class="form-label">Jawaban (Kata) *</label>
                             <input type="text" class="form-control" id="correct_answer" name="correct_answer"
-                                placeholder="Example: SCHOOL" required>
-                            <small class="text-muted">Enter single word answer for crossword.</small>
+                                placeholder="Contoh: SEKOLAH" required>
+                            <small class="text-muted">Masukkan jawaban satu kata untuk teka-teki silang.</small>
                         </div>
 
                     @elseif($templateType === 'labeled_diagram')
                         <div class="mb-3">
-                            <label for="correct_answer" class="form-label">Correct Point *</label>
+                            <label for="correct_answer" class="form-label">Titik Benar *</label>
                             <select class="form-select" id="correct_answer" name="correct_answer" required>
-                                <option value="">Select point on diagram</option>
-                                <option value="1">Point 1</option>
-                                <option value="2">Point 2</option>
-                                <option value="3">Point 3</option>
+                                <option value="">Pilih titik pada diagram</option>
+                                <option value="1">Titik 1</option>
+                                <option value="2">Titik 2</option>
+                                <option value="3">Titik 3</option>
                             </select>
-                            <small class="text-muted">Student will click on point 1/2/3 in the image.</small>
+                            <small class="text-muted">Siswa akan mengklik titik 1/2/3 pada gambar.</small>
                         </div>
 
                     @elseif(in_array($templateType, $textAnswerTypes))
                         <div class="mb-3">
-                            <label for="correct_answer" class="form-label">Answer Word *</label>
+                            <label for="correct_answer" class="form-label">Jawaban (Kata) *</label>
                             <input type="text" class="form-control" id="correct_answer" name="correct_answer"
-                                placeholder="Example: SCHOOL" autocomplete="off" autocapitalize="characters" spellcheck="false" required>
-                            <small class="text-muted">Answer is typed (no options needed), stored in uppercase.</small>
+                                placeholder="Contoh: SEKOLAH" autocomplete="off" autocapitalize="characters" spellcheck="false" required>
+                            <small class="text-muted">Jawaban diketik (tanpa opsi), disimpan dalam huruf kapital.</small>
                         </div>
 
                     @elseif(in_array($templateType, ['ranking_order', 'word_magnet']))
@@ -739,22 +764,22 @@
                             <div class="col-md-6 mb-3">
                                 <label for="option_c" class="form-label">Item C *</label>
                                 <input type="text" class="form-control" id="option_c" name="option_c"
-                                    placeholder="{{ $templateType === 'word_magnet' ? 'Word C' : 'Item C' }}" required>
+                                    placeholder="{{ $templateType === 'word_magnet' ? 'Kata C' : 'Item C' }}" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="option_d" class="form-label">Item D *</label>
                                 <input type="text" class="form-control" id="option_d" name="option_d"
-                                    placeholder="{{ $templateType === 'word_magnet' ? 'Word D' : 'Item D' }}" required>
+                                    placeholder="{{ $templateType === 'word_magnet' ? 'Kata D' : 'Item D' }}" required>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Correct Order *</label>
+                            <label class="form-label">Urutan Benar *</label>
                             <div class="row g-2">
                                 @for($i = 1; $i <= 4; $i++)
                                     <div class="col-6 col-md-3">
                                         <select class="form-select" name="correct_order[]" required>
-                                            <option value="">Position {{ $i }}</option>
+                                            <option value="">Posisi {{ $i }}</option>
                                             <option value="A">A</option>
                                             <option value="B">B</option>
                                             <option value="C">C</option>
@@ -763,60 +788,60 @@
                                     </div>
                                 @endfor
                             </div>
-                            <small class="text-muted">Example order: A → B → C → D (no duplicates).</small>
+                            <small class="text-muted">Contoh urutan: A → B → C → D (tanpa duplikat).</small>
                         </div>
 
                     @elseif(in_array($templateType, $customTextTypes))
                         <div class="mb-3">
-                            <label for="correct_answer" class="form-label">Correct Answer *</label>
+                            <label for="correct_answer" class="form-label">Jawaban Benar *</label>
                             <input type="text" class="form-control" id="correct_answer" name="correct_answer"
-                                placeholder="Enter correct answer (e.g.: 8)" inputmode="decimal" pattern="[0-9]*" autocomplete="off" required>
-                            <small class="text-muted">Enter the calculation result. Student answers via number keypad.</small>
+                                placeholder="Masukkan jawaban yang benar (contoh: 8)" inputmode="decimal" pattern="[0-9]*" autocomplete="off" required>
+                            <small class="text-muted">Masukkan hasil perhitungan. Siswa menjawab melalui keypad angka.</small>
                         </div>
 
                     @elseif($templateType === 'iframe_embed')
                         <div class="mb-3">
-                            <label for="correct_answer" class="form-label">HTML Iframe (Embed) Code *</label>
+                            <label for="correct_answer" class="form-label">Kode HTML Iframe (Embed) *</label>
                             <textarea class="form-control" id="correct_answer" name="correct_answer" rows="4" 
-                                placeholder="Paste iframe code here..." required></textarea>
+                                placeholder="Tempel kode iframe di sini..." required></textarea>
                             <div class="alert alert-info mt-2" style="font-size: 0.9rem;">
-                                💡 <strong>Wordwall Tips:</strong> Select "Share" -> "Embed" -> Copy the <code>&lt;iframe...&gt;</code> code and paste above.
+                                💡 <strong>Tips Wordwall:</strong> Pilih "Share" -> "Embed" -> Salin kode <code>&lt;iframe...&gt;</code> lalu tempel di atas.
                             </div>
                         </div>
 
                     @else
                         @if($needsFourOptions)
                             <div class="alert alert-warning">
-                                💡 Template <strong>{{ $game->template->name ?? $templateType }}</strong> requires <strong>4 options</strong> (A, B, C, D).
+                                💡 Template <strong>{{ $game->template->name ?? $templateType }}</strong> membutuhkan <strong>4 opsi</strong> (A, B, C, D).
                             </div>
                         @endif
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="option_a" class="form-label">Option A *</label>
+                                <label for="option_a" class="form-label">Pilihan A *</label>
                                 <input type="text" class="form-control" id="option_a" name="option_a"
-                                    placeholder="Answer A" required>
+                                    placeholder="Jawaban A" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="option_b" class="form-label">Option B *</label>
+                                <label for="option_b" class="form-label">Pilihan B *</label>
                                 <input type="text" class="form-control" id="option_b" name="option_b"
-                                    placeholder="Answer B" required>
+                                    placeholder="Jawaban B" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="option_c" class="form-label">Option C{{ $needsFourOptions ? ' *' : '' }}</label>
+                                <label for="option_c" class="form-label">Pilihan C{{ $needsFourOptions ? ' *' : '' }}</label>
                                 <input type="text" class="form-control" id="option_c" name="option_c"
-                                    placeholder="{{ $needsFourOptions ? 'Answer C' : 'Answer C (optional)' }}" {{ $needsFourOptions ? 'required' : '' }}>
+                                    placeholder="{{ $needsFourOptions ? 'Jawaban C' : 'Jawaban C (opsional)' }}" {{ $needsFourOptions ? 'required' : '' }}>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="option_d" class="form-label">Option D{{ $needsFourOptions ? ' *' : '' }}</label>
+                                <label for="option_d" class="form-label">Pilihan D{{ $needsFourOptions ? ' *' : '' }}</label>
                                 <input type="text" class="form-control" id="option_d" name="option_d"
-                                    placeholder="{{ $needsFourOptions ? 'Answer D' : 'Answer D (optional)' }}" {{ $needsFourOptions ? 'required' : '' }}>
+                                    placeholder="{{ $needsFourOptions ? 'Jawaban D' : 'Jawaban D (opsional)' }}" {{ $needsFourOptions ? 'required' : '' }}>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="correct_answer" class="form-label">Correct Answer *</label>
+                            <label for="correct_answer" class="form-label">Jawaban Benar *</label>
                             <select class="form-select" id="correct_answer" name="correct_answer" required>
-                                <option value="">Select correct answer</option>
+                                <option value="">Pilih jawaban benar</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="C">C</option>
@@ -826,13 +851,13 @@
                     @endif
 
                     <button type="submit" class="btn-add">
-                        ➕ Add Question
+                        ➕ Tambah Soal
                     </button>
                 </form>
             </div>
 
             <!-- Questions List -->
-            <h4 class="mb-3">📋 Question List ({{ $game->questions->count() }})</h4>
+            <h4 class="mb-3">📋 Daftar Soal ({{ $game->questions->count() }})</h4>
 
             @if($game->questions->count() > 0)
                 <div class="question-list">
@@ -842,14 +867,14 @@
                     @foreach($game->questions as $index => $question)
                         <div class="question-item">
                             <div class="question-header">
-                                <span class="question-number">Question #{{ $index + 1 }}</span>
+                                <span class="question-number">Soal #{{ $index + 1 }}</span>
                                 <div class="question-actions">
                                     <form action="{{ route('teacher.games.questions.delete', [$game->id, $question->id]) }}"
                                         method="POST" style="display: inline;"
                                         class="delete-question-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-sm btn-delete-q">🗑️ Delete</button>
+                                        <button type="submit" class="btn-sm btn-delete-q">🗑️ Hapus</button>
                                     </form>
                                 </div>
                             </div>
@@ -857,7 +882,7 @@
                             <div class="options-list">
                                 @if($question->image)
                                     <div class="option-item">
-                                        🖼️ Has image
+                                        🖼️ Ada gambar
                                     </div>
                                 @endif
 
@@ -886,9 +911,9 @@
                                         @if($gameTemplateType === 'labeled_diagram')
                                             <strong>Point:</strong> {{ $question->correct_answer }}
                                         @elseif($gameTemplateType === 'crossword')
-                                            <strong>Answer:</strong> {{ $question->correct_answer }}
+                                            <strong>Jawaban:</strong> {{ $question->correct_answer }}
                                         @else
-                                            <strong>Answer:</strong> {{ $question->correct_answer }}
+                                            <strong>Jawaban:</strong> {{ $question->correct_answer }}
                                         @endif
                                     </div>
                                 @endif
@@ -898,7 +923,7 @@
                 </div>
             @else
                 <div class="empty-questions">
-                    <p>📝 No questions yet for this game.<br>Add your first question using the form above!</p>
+                    <p>📝 Belum ada soal untuk game ini.<br>Tambahkan soal pertama lewat formulir di atas!</p>
                 </div>
             @endif
         </div>
@@ -911,14 +936,14 @@
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 Swal.fire({
-                    title: '🗑️ Delete Question?',
-                    html: '<p style="font-size: 1.1rem; color: #64748b;">This question will be permanently deleted!</p>',
+                    title: '🗑️ Hapus Soal?',
+                    html: '<p style="font-size: 1.1rem; color: #64748b;">Soal ini akan dihapus permanen!</p>',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#ef4444',
                     cancelButtonColor: '#94a3b8',
-                    confirmButtonText: '✓ Yes, Delete!',
-                    cancelButtonText: '✗ Cancel',
+                    confirmButtonText: '✓ Ya, Hapus!',
+                    cancelButtonText: '✗ Batal',
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -932,7 +957,7 @@
         @if(session('success'))
             Swal.fire({
                 icon: 'success',
-                title: '✅ Success!',
+                title: '✅ Berhasil!',
                 text: '{{ session('success') }}',
                 confirmButtonColor: '#22c55e',
                 confirmButtonText: 'OK',
@@ -945,7 +970,7 @@
         @if(session('error'))
             Swal.fire({
                 icon: 'error',
-                title: '❌ Error!',
+                title: '❌ Gagal!',
                 text: '{{ session('error') }}',
                 confirmButtonColor: '#ef4444',
                 confirmButtonText: 'OK'
@@ -961,8 +986,8 @@
             if (files.length > 5) {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Too Many Images!',
-                    text: 'Maximum 5 images can be uploaded',
+                    title: 'Terlalu Banyak Gambar!',
+                    text: 'Maksimal 5 gambar dapat diunggah',
                     confirmButtonColor: '#f59e0b'
                 });
                 e.target.value = '';
@@ -974,8 +999,8 @@
                 if (file.size > maxSize) {
                     Swal.fire({
                         icon: 'warning',
-                        title: 'File Too Large!',
-                        text: `File "${file.name}" exceeds 2MB`,
+                        title: 'Ukuran File Terlalu Besar!',
+                        text: `File "${file.name}" melebihi 2MB`,
                         confirmButtonColor: '#f59e0b'
                     });
                     e.target.value = '';

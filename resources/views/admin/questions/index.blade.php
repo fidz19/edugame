@@ -37,7 +37,7 @@
         <h1>📝 Kelola Soal</h1>
         <div>
             <a href="{{ route('admin.games') }}">Daftar Game</a>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 
@@ -91,7 +91,7 @@
                                 </td>
                                 <td>
                                     <div class="actions">
-                                        <a href="{{ route('admin.questions.edit', $question->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{ route('admin.questions.edit', $question->id) }}" class="btn btn-warning btn-sm">Ubah</a>
                                         <form action="{{ route('admin.questions.delete', $question->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus soal ini?')">
                                             @csrf
                                             @method('DELETE')

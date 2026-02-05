@@ -28,7 +28,7 @@
         <h1>➕ Tambah Orang Tua</h1>
         <div>
             <a href="{{ route('admin.parents') }}">Kembali</a>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 
@@ -62,9 +62,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password *</label>
+                    <label for="password">Kata Sandi *</label>
                     <input type="password" id="password" name="password" required placeholder="Minimal 6 karakter">
-                    <small style="color: #666; display: block; margin-top: 5px;">Password akan di-hash otomatis</small>
+                    <small style="color: #666; display: block; margin-top: 5px;">Kata sandi akan di-hash otomatis</small>
                 </div>
 
                 <div class="form-actions">

@@ -339,7 +339,7 @@
         <div class="bubble"></div>
     </div>
 
-    <a href="{{ route('home') }}" class="back-btn">← Kembali ke Home</a>
+    <a href="{{ route('home') }}" class="back-btn">← Kembali ke Beranda</a>
 
     <div class="container">
         <div class="page-header">
@@ -443,7 +443,7 @@
             <div class="modal-content" style="border-radius: 30px; border: none;">
                 <div class="modal-header" style="background: linear-gradient(135deg, #ffcc00, #ffd608); border: none; padding: 2rem; border-radius: 30px 30px 0 0;">
                     <h5 class="modal-title" style="color: #1e293b; font-size: 2rem; font-weight: 700; width: 100%; text-align: center;">
-                        🎮 Login untuk Bermain!
+                        🎮 Masuk untuk Bermain!
                     </h5>
                 </div>
                 <div class="modal-body" style="padding: 2.5rem;">

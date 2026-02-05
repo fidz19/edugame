@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Les - Dashboard Orang Tua</title>
+    <title>Jadwal Les - Dasbor Orang Tua</title>
     <style>
         * {
             margin: 0;
@@ -390,7 +390,7 @@
             <nav class="sidebar-nav">
                 <a href="{{ route('parent.dashboard') }}" class="nav-item">
                     <span class="nav-icon">📊</span>
-                    Dashboard
+                    Dasbor
                 </a>
                 <a href="{{ route('parent.jadwal') }}" class="nav-item active">
                     <span class="nav-icon">📅</span>
@@ -416,7 +416,7 @@
             <!-- Top Header -->
             <header class="top-header">
                 <span class="header-title">📅 Jadwal Les Anak</span>
-                <a href="{{ route('parent.logout') }}" class="btn-logout">Logout</a>
+                <a href="{{ route('parent.logout') }}" class="btn-logout">Keluar</a>
             </header>
 
             <!-- Content Area -->

@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="image">Upload Gambar (Opsional)</label>
+                    <label for="image">Unggah Gambar (Opsional)</label>
                     <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
                     <small style="color: #666; display: block; margin-top: 5px;">Format: JPG, PNG, GIF. Max: 2MB</small>
                     <img id="imagePreview" style="max-width: 300px; margin-top: 10px; display: none; border-radius: 10px;">

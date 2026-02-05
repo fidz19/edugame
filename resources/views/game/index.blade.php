@@ -356,7 +356,7 @@
         document.head.appendChild(style);
     </script>
 
-    <a href="{{ route('home') }}" class="back-btn">← Kembali ke Home</a>
+    <a href="{{ route('home') }}" class="back-btn">← Kembali ke Beranda</a>
 
     <header>
         <h1>🌊 Permainan Kelas {{ $student->kelas ?? 'Taman Belajar Sedjati' }} 🫧</h1>

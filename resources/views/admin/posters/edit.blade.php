@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Poster - Admin</title>
+    <title>Ubah Poster - Admin</title>
     <style>
         * {
             margin: 0;
@@ -133,10 +133,10 @@
 
 <body>
     <div class="navbar">
-        <h1>✏️ Edit Poster</h1>
+        <h1>✏️ Ubah Poster</h1>
         <div>
             <a href="{{ route('admin.posters') }}">Kembali</a>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 
@@ -203,7 +203,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">💾 Update</button>
+                    <button type="submit" class="btn btn-primary">💾 Simpan Perubahan</button>
                     <a href="{{ route('admin.posters') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>

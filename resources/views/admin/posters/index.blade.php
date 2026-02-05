@@ -138,8 +138,8 @@
     <div class="navbar">
         <h1>📸 Kelola Poster</h1>
         <div>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
-            <a href="{{ route('admin.logout') }}">Logout</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
+            <a href="{{ route('admin.logout') }}">Keluar</a>
         </div>
     </div>
 
@@ -165,7 +165,7 @@
                                 <p style="font-size: 12px; color: #999;">Order: {{ $poster->order }}</p>
                                 <div class="poster-actions">
                                     <a href="{{ route('admin.posters.edit', $poster->id) }}" class="btn btn-secondary"
-                                        style="font-size: 12px; padding: 6px 12px;">Edit</a>
+                                        style="font-size: 12px; padding: 6px 12px;">Ubah</a>
                                     <form action="{{ route('admin.posters.delete', $poster->id) }}" method="POST"
                                         style="display: inline;">
                                         @csrf

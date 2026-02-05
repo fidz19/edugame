@@ -29,7 +29,7 @@
         <h1>➕ Tambah Poster Baru</h1>
         <div>
             <a href="{{ route('admin.posters') }}">Kembali</a>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="image">Upload Gambar Poster *</label>
+                    <label for="image">Unggah Gambar Poster *</label>
                     <input type="file" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
                     <small style="color: #666; display: block; margin-top: 5px;">Format: JPG, PNG, GIF. Max: 5MB</small>
                     <img id="imagePreview" style="max-width: 400px; margin-top: 10px; display: none; border-radius: 10px;">

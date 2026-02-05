@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedules - Teacher Portal</title>
+    <title>Jadwal - Portal Guru</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -152,6 +152,30 @@
         .user-email {
             font-size: 0.75rem;
             color: #64748b;
+        }
+
+        .btn-logout {
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #fecaca;
+            color: #b91c1c;
         }
 
         /* Main Content */
@@ -412,26 +436,26 @@
             <div class="brand-icon">📚</div>
             <div class="brand-text">
                 <div class="brand-name">EduPlay</div>
-                <div class="brand-subtitle">Teacher Portal</div>
+                <div class="brand-subtitle">Portal Guru</div>
             </div>
         </div>
 
         <nav class="sidebar-nav">
             <a href="{{ route('teacher.dashboard') }}" class="nav-item">
                 <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
+                <span>Dasbor</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ route('teacher.classes') }}" class="nav-item">
                 <span class="nav-icon">👥</span>
-                <span>Classes</span>
+                <span>Kelas</span>
             </a>
             <a href="{{ route('teacher.games') }}" class="nav-item">
                 <span class="nav-icon">🎮</span>
-                <span>Games</span>
+                <span>Game</span>
             </a>
             <a href="{{ route('teacher.schedules') }}" class="nav-item active">
                 <span class="nav-icon">📈</span>
-                <span>Results</span>
+                <span>Jadwal</span>
             </a>
         </nav>
 
@@ -440,9 +464,12 @@
                 <div class="user-avatar">{{ substr($teacher->name, 0, 1) }}</div>
                 <div class="user-info">
                     <div class="user-name">{{ $teacher->name }}</div>
-                    <div class="user-email">{{ $teacher->email ?? 'teacher@school.edu' }}</div>
+                    <div class="user-email">{{ $teacher->email ?? 'guru@sekolah.edu' }}</div>
                 </div>
             </div>
+            <a href="{{ route('teacher.logout') }}" class="btn-logout">
+                🚪 Keluar
+            </a>
         </div>
     </aside>
 
@@ -452,17 +479,15 @@
         <div class="header">
             <div class="search-box">
                 <span class="search-icon">🔍</span>
-                <input type="text" placeholder="Search schedules...">
+                <input type="text" placeholder="Cari jadwal...">
             </div>
             <div class="header-actions">
-                <button class="header-btn">🔔</button>
-                <button class="header-btn">⚙️</button>
             </div>
         </div>
 
         <!-- Page Title -->
         <div class="page-title-section">
-            <h1 class="page-title">📅 Teaching Schedule</h1>
+            <h1 class="page-title">📅 Jadwal Mengajar</h1>
             <p class="page-subtitle">Your assigned tutoring sessions by admin</p>
         </div>
 
@@ -510,7 +535,7 @@
             <div class="section-card">
                 <div class="empty-state">
                     <div class="empty-state-icon">📅</div>
-                    <p>No teaching schedules assigned to you yet.<br>Contact admin to set up your schedule.</p>
+                    <p>Belum ada jadwal mengajar untuk Anda.<br>Hubungi admin untuk mengatur jadwal.</p>
                 </div>
             </div>
         @endif

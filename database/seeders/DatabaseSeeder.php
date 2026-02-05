@@ -184,7 +184,7 @@ class DatabaseSeeder extends Seeder
             $this->command->info('   Email: budi@test.com | Password: password123');
             $this->command->info('   Email: siti@test.com | Password: password123');
             $this->command->info('');
-            $this->command->info('👶 Student Login:');
+            $this->command->info('Student Login:');
             $this->command->info('   Nama: Ani Santoso | Kelas: 3');
             $this->command->info('   Nama: Budi Santoso Jr | Kelas: 5');
             $this->command->info('   Nama: Citra Rahayu | Kelas: 4');

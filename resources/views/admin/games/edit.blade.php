@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Game - Admin</title>
+    <title>Ubah Game - Admin</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
@@ -29,10 +29,10 @@
 </head>
 <body>
     <div class="navbar">
-        <h1>✏️ Edit Game</h1>
+        <h1>✏️ Ubah Game</h1>
         <div>
             <a href="{{ route('admin.games') }}">Kembali</a>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}">Dasbor</a>
         </div>
     </div>
 
@@ -61,14 +61,14 @@
                     <label for="thumbnail">Gambar Thumbnail</label>
                     @if($game->thumbnail)
                         <img src="{{ asset($game->thumbnail) }}" alt="{{ $game->title }}" class="current-thumbnail">
-                        <p style="color: #666; font-size: 12px; margin-top: 5px;">Upload gambar baru untuk mengganti</p>
+                        <p style="color: #666; font-size: 12px; margin-top: 5px;">Unggah gambar baru untuk mengganti</p>
                     @endif
                     <input type="file" id="thumbnail" name="thumbnail" accept="image/*">
                 </div>
 
                 <hr style="margin: 30px 0; border: none; border-top: 2px solid #e0e0e0;">
                 
-                <h3 style="color: #667eea; margin-bottom: 15px;">🎨 Custom Game Template (Opsional)</h3>
+                <h3 style="color: #667eea; margin-bottom: 15px;">🎨 Template Game Kustom (Opsional)</h3>
                 <p style="color: #666; margin-bottom: 20px; font-size: 14px;">
                     Masukkan kode HTML lengkap dengan CSS dan JavaScript untuk custom game template. Kode ini akan dirender sebagai halaman game.
                 </p>
@@ -114,10 +114,10 @@
                 @endif
 
                 <div class="form-group">
-                    <label for="game_images">📸 Upload Gambar Baru (Multiple)</label>
+                    <label for="game_images">📸 Unggah Gambar Baru (Beberapa)</label>
                     <input type="file" id="game_images" name="game_images[]" accept="image/*" multiple>
                     <small style="color: #666; display: block; margin-top: 5px;">
-                        💡 Upload gambar tambahan. Gambar lama tidak akan terhapus.
+                        💡 Unggah gambar tambahan. Gambar lama tidak akan terhapus.
                     </small>
                 </div>
 
@@ -136,7 +136,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">💾 Update Game</button>
+                    <button type="submit" class="btn btn-primary">💾 Simpan Perubahan Game</button>
                     <a href="{{ route('admin.games') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>

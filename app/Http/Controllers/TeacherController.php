@@ -101,7 +101,7 @@ class TeacherController extends Controller
             ->whereNotNull('completed_at');
 
         if ($filterClass) {
-            $sessionQuery->whereHas('student', function($q) use ($filterClass) {
+            $sessionQuery->whereHas('student', function ($q) use ($filterClass) {
                 $q->where('kelas', $filterClass);
             });
         }
@@ -127,7 +127,7 @@ class TeacherController extends Controller
         for ($i = 1; $i <= 6; $i++) {
             $classStats[$i] = GameSession::whereIn('game_id', $teacherGameIds)
                 ->whereNotNull('completed_at')
-                ->whereHas('student', function($q) use ($i) {
+                ->whereHas('student', function ($q) use ($i) {
                     $q->where('kelas', $i);
                 })->pluck('student_id')->unique()->count();
         }
@@ -189,19 +189,56 @@ class TeacherController extends Controller
     /**
      * Show games created by teacher
      */
-    public function games()
+    public function games(Request $request)
     {
         if (!session('teacher_id')) {
             return redirect()->route('teacher.login');
         }
 
         $teacher = Teacher::findOrFail(session('teacher_id'));
-        $games = Game::with(['template', 'questions'])
+        $filterClass = $request->get('class', null);
+
+        $gamesQuery = Game::with(['template', 'questions'])
+            ->where('teacher_id', $teacher->id);
+
+        if ($filterClass) {
+            $gamesQuery->where('class', $filterClass);
+        }
+
+        $games = $gamesQuery->orderBy('created_at', 'desc')->get();
+
+        return view('teacher.games.index', compact('games', 'teacher', 'filterClass'));
+    }
+
+    /**
+     * Show games organized by class
+     */
+    public function classes()
+    {
+        if (!session('teacher_id')) {
+            return redirect()->route('teacher.login');
+        }
+
+        $teacher = Teacher::findOrFail(session('teacher_id'));
+
+        // Get all games by this teacher, organized by class
+        $gamesByClass = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $gamesByClass[$i] = Game::with(['template', 'questions'])
+                ->where('teacher_id', $teacher->id)
+                ->where('class', $i)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        // Games without specific class (all classes)
+        $gamesAllClasses = Game::with(['template', 'questions'])
             ->where('teacher_id', $teacher->id)
+            ->whereNull('class')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('teacher.games.index', compact('games', 'teacher'));
+        return view('teacher.classes', compact('teacher', 'gamesByClass', 'gamesAllClasses'));
     }
 
     /**
@@ -214,7 +251,7 @@ class TeacherController extends Controller
         }
 
         $templates = GameTemplate::active()->get();
-        
+
         return view('teacher.games.create', compact('templates'));
     }
 
@@ -243,10 +280,10 @@ class TeacherController extends Controller
         if ($request->hasFile('game_images')) {
             $images = [];
             $files = $request->file('game_images');
-            
+
             // Limit to 5 images
             $filesToProcess = array_slice($files, 0, 5);
-            
+
             foreach ($filesToProcess as $image) {
                 $path = $image->store('games/images', 'public');
                 $images[] = $path;
@@ -317,16 +354,16 @@ class TeacherController extends Controller
             $existingImages = is_string($gameImages) ? json_decode($gameImages, true) : ($gameImages ?? []);
             $newImages = [];
             $files = $request->file('game_images');
-            
+
             // Limit total images to 5
             $totalAllowed = 5 - count($existingImages);
             $filesToProcess = array_slice($files, 0, $totalAllowed);
-            
+
             foreach ($filesToProcess as $image) {
                 $path = $image->store('games/images', 'public');
                 $newImages[] = $path;
             }
-            
+
             // Merge existing and new images
             $allImages = array_merge($existingImages, $newImages);
             $gameImages = json_encode($allImages);
@@ -488,7 +525,7 @@ class TeacherController extends Controller
             ]);
 
             $order = array_map(
-                static fn ($value) => strtoupper(trim((string) $value)),
+                static fn($value) => strtoupper(trim((string) $value)),
                 (array) $request->input('correct_order', [])
             );
 
@@ -555,7 +592,7 @@ class TeacherController extends Controller
 
             $options = null;
             $correctAnswer = $request->correct_answer; // No trimming/uppercasing to preserve iframe code
-            
+
             // Auto-fill if empty
             if (!$request->question_text) {
                 $request->merge(['question_text' => 'Mainkan game di bawah ini']);
@@ -572,8 +609,8 @@ class TeacherController extends Controller
                     'option_b' => 'required|string',
                 ],
                 $needsFour
-                    ? ['option_c' => 'required|string', 'option_d' => 'required|string']
-                    : ['option_c' => 'nullable|string', 'option_d' => 'nullable|string']
+                ? ['option_c' => 'required|string', 'option_d' => 'required|string']
+                : ['option_c' => 'nullable|string', 'option_d' => 'nullable|string']
             ));
 
             $options = [
@@ -681,7 +718,7 @@ class TeacherController extends Controller
             ]);
 
             $order = array_map(
-                static fn ($value) => strtoupper(trim((string) $value)),
+                static fn($value) => strtoupper(trim((string) $value)),
                 (array) $request->input('correct_order', [])
             );
 
@@ -740,8 +777,8 @@ class TeacherController extends Controller
                     'option_b' => 'required|string',
                 ],
                 $needsFour
-                    ? ['option_c' => 'required|string', 'option_d' => 'required|string']
-                    : ['option_c' => 'nullable|string', 'option_d' => 'nullable|string']
+                ? ['option_c' => 'required|string', 'option_d' => 'required|string']
+                : ['option_c' => 'nullable|string', 'option_d' => 'nullable|string']
             ));
 
             $options = [
