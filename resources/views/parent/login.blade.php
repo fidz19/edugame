@@ -64,16 +64,7 @@
             top: 14%;
             right: 14%;
         }
-
-        .shape.pentagon {
-            width: 64px;
-            height: 64px;
-            border: 4px solid #fb7185;
-            clip-path: polygon(50% 0%, 100% 38%, 81% 100%, 19% 100%, 0% 38%);
-            top: 18%;
-            left: 10%;
-        }
-
+        
         .shape.dot {
             width: 90px;
             height: 90px;
@@ -242,17 +233,26 @@
             align-items: center;
             justify-content: center;
             box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
         .visual-art {
-            width: min(360px, 80%);
-            aspect-ratio: 1 / 1;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 26px;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        .visual-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .visual-chip {
@@ -282,20 +282,6 @@
             left: 12%;
         }
 
-        .moon-btn {
-            position: fixed;
-            right: 24px;
-            bottom: 24px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
-            display: grid;
-            place-items: center;
-            color: #1f2937;
-            font-size: 20px;
-        }
 
         @media (max-width: 960px) {
             .auth-shell {
@@ -397,26 +383,11 @@
 
         <section class="auth-visual">
             <div class="visual-art">
-                <svg width="70%" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <rect x="20" y="40" width="280" height="240" rx="32" fill="white" opacity="0.9" />
-                    <circle cx="140" cy="140" r="46" fill="#F8B4B4" />
-                    <circle cx="220" cy="160" r="30" fill="#FDE68A" />
-                    <rect x="112" y="180" width="60" height="80" rx="24" fill="#F472B6" />
-                    <rect x="200" y="186" width="40" height="70" rx="18" fill="#60A5FA" />
-                    <circle cx="128" cy="135" r="6" fill="#1F2937" />
-                    <circle cx="152" cy="135" r="6" fill="#1F2937" />
-                    <circle cx="212" cy="155" r="4" fill="#1F2937" />
-                    <circle cx="228" cy="155" r="4" fill="#1F2937" />
-                    <path d="M130 155c8 8 20 8 28 0" stroke="#1F2937" stroke-width="4" stroke-linecap="round" />
-                    <path d="M210 170c6 6 14 6 20 0" stroke="#1F2937" stroke-width="3" stroke-linecap="round" />
-                </svg>
+                <img src="{{ asset('images/login_ortu.png') }}" alt="Ilustrasi login orang tua" loading="lazy" />
             </div>
-            <div class="visual-chip chip-top">🏆 Belajar Jadi Seru<span>XP, level & badge</span></div>
-            <div class="visual-chip chip-bottom">👨‍👩‍👧 Terintegrasi<span>Ortu & anak terhubung</span></div>
         </section>
     </main>
 
-    <div class="moon-btn">🌙</div>
 </body>
 
 </html>

@@ -13,7 +13,9 @@
             --muted: #64748b;
             --border: #e2e8f0;
             --card: #ffffff;
-            --shadow: 0 24px 60px rgba(15, 23, 42, 0.15);
+            --shadow: 0 28px 70px rgba(15, 23, 42, 0.18);
+            --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.12);
+            --paper: #f8fafc;
         }
 
         * , *::before, *::after {
@@ -24,10 +26,10 @@
             margin: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--ink);
-            background: radial-gradient(circle at 20% 25%, #bfdbfe 0%, transparent 45%),
-                radial-gradient(circle at 85% 25%, #fcd34d 0%, transparent 45%),
-                radial-gradient(circle at 70% 80%, #dbeafe 0%, transparent 45%),
-                #f8fafc;
+            background: radial-gradient(circle at 20% 20%, #c7d2fe 0%, transparent 38%),
+                radial-gradient(circle at 80% 18%, #fde68a 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, #bae6fd 0%, transparent 45%),
+                var(--paper);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -37,10 +39,35 @@
         }
 
         body.theme-teacher {
-            --accent: #2563eb;
-            --accent-deep: #1d4ed8;
-            --soft: #dbeafe;
+            --accent: #1d4ed8;
+            --accent-deep: #1e40af;
+            --accent-soft: #dbeafe;
+            --accent-warm: #f59e0b;
+            --soft: #e0f2fe;
             --visual-bg: linear-gradient(135deg, #fde68a, #bfdbfe 55%, #c7d2fe 100%);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: -20% -10%;
+            background: radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.15), transparent 45%),
+                radial-gradient(circle at 85% 15%, rgba(245, 158, 11, 0.18), transparent 45%),
+                radial-gradient(circle at 70% 85%, rgba(14, 165, 233, 0.2), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .bg-shapes {
@@ -65,15 +92,6 @@
             right: 12%;
         }
 
-        .shape.pentagon {
-            width: 64px;
-            height: 64px;
-            border: 4px solid #60a5fa;
-            clip-path: polygon(50% 0%, 100% 38%, 81% 100%, 19% 100%, 0% 38%);
-            top: 20%;
-            left: 10%;
-        }
-
         .shape.dot {
             width: 90px;
             height: 90px;
@@ -84,7 +102,7 @@
         }
 
         .auth-shell {
-            width: min(1080px, 100%);
+            width: min(1120px, 100%);
             display: grid;
             grid-template-columns: minmax(320px, 420px) minmax(320px, 1fr);
             gap: 32px;
@@ -94,10 +112,23 @@
         }
 
         .auth-card {
-            background: var(--card);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.94));
             border-radius: 28px;
             padding: 36px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
             box-shadow: var(--shadow);
+            backdrop-filter: blur(6px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 55%);
+            opacity: 0.8;
+            pointer-events: none;
         }
 
         .pill {
@@ -110,7 +141,18 @@
             letter-spacing: 0.08em;
             font-weight: 700;
             color: var(--accent-deep);
-            background: var(--soft);
+            background: var(--accent-soft);
+        }
+
+        .pill + .pill {
+            margin-left: 8px;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
         .auth-card h1 {
@@ -176,7 +218,7 @@
             border-radius: 14px;
             border: 1.5px solid var(--border);
             font-size: 14px;
-            background: #f8fafc;
+            background: #f1f5f9;
             outline: none;
             transition: border 0.2s ease, box-shadow 0.2s ease;
         }
@@ -203,6 +245,16 @@
             justify-content: center;
             gap: 10px;
             align-items: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 28px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
         }
 
         .helper {
@@ -241,18 +293,37 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+
+        .auth-visual::before {
+            content: "";
+            position: absolute;
+            inset: 12px;
+            border-radius: 24px;
+            border: 1px dashed rgba(255, 255, 255, 0.55);
+            opacity: 0.7;
+            pointer-events: none;
         }
 
         .visual-art {
-            width: min(360px, 80%);
-            aspect-ratio: 1 / 1;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 26px;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        .visual-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .visual-chip {
@@ -280,21 +351,6 @@
         .chip-bottom {
             bottom: 18%;
             left: 12%;
-        }
-
-        .moon-btn {
-            position: fixed;
-            right: 24px;
-            bottom: 24px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
-            display: grid;
-            place-items: center;
-            color: #1f2937;
-            font-size: 20px;
         }
 
         @media (max-width: 960px) {
@@ -328,6 +384,7 @@
                 width: 150px;
                 font-size: 12px;
             }
+
         }
     </style>
 </head>
@@ -341,7 +398,9 @@
 
     <main class="auth-shell">
         <section class="auth-card">
-            <span class="pill">PORTAL GURU</span>
+            <div class="card-meta">
+                <span class="pill">PORTAL GURU</span>                
+            </div>
             <h1>Selamat Datang!</h1>
             <p class="lead">Masuk untuk mengelola kelas, materi, dan memantau progres belajar siswa.</p>
 
@@ -396,24 +455,10 @@
 
         <section class="auth-visual">
             <div class="visual-art">
-                <svg width="70%" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <rect x="30" y="46" width="260" height="170" rx="18" fill="#93C5FD" />
-                    <rect x="44" y="60" width="232" height="142" rx="12" fill="#F8FAFC" />
-                    <circle cx="148" cy="208" r="36" fill="#FCD34D" />
-                    <rect x="120" y="238" width="56" height="54" rx="16" fill="#60A5FA" />
-                    <circle cx="138" cy="204" r="5" fill="#1F2937" />
-                    <circle cx="160" cy="204" r="5" fill="#1F2937" />
-                    <path d="M140 220c6 6 16 6 22 0" stroke="#1F2937" stroke-width="4" stroke-linecap="round" />
-                    <rect x="198" y="228" width="54" height="10" rx="5" fill="#94A3B8" />
-                    <rect x="230" y="214" width="8" height="60" rx="4" fill="#1F2937" />
-                </svg>
-            </div>
-            <div class="visual-chip chip-top">📊 Laporan Instan<span>Progres siswa real-time</span></div>
-            <div class="visual-chip chip-bottom">🗂️ Materi Terarah<span>Kelas lebih tertata</span></div>
+                <img src="{{ asset('images/login_guru.png') }}" alt="Ilustrasi login guru" loading="lazy" />
+            </div>          
         </section>
     </main>
-
-    <div class="moon-btn">🌙</div>
 </body>
 
 </html>
